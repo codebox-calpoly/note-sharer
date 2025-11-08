@@ -4,9 +4,6 @@ Closes #<id>
 ## Summary
 Briefly explain the change and why.
 
-## Screenshots / Demos
-(if UI or visible behavior)
-
 ## How to Test
 Steps to verify locally.
 
@@ -14,4 +11,6 @@ Steps to verify locally.
 - [ ] Tests added/updated
 - [ ] Lint/tests pass locally
 - [ ] Docs updated (README/ADR/changelog)
-- [ ] Screenshots/demos
+
+## Screenshots / Demos
+(if UI or visible behavior)
