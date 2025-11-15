@@ -11,10 +11,12 @@ Students struggle to find consolidated, high‑quality, course‑specific study 
 ### Team
 
 - [First Last](https://www.linkedin.com/) - Project Manager
-- [First Last](https://www.linkedin.com/) - Tech Lead
+- [Joshua Panicker](https://www.linkedin.com/in/joshua-panicker-32610a2b0) - Tech Lead
 - [Jonah Chan](https://www.linkedin.com/in/jonah-chan) - Tech Lead
 - [First Last](https://www.linkedin.com/) - Designer
 - [Noah Gullo](https://www.linkedin.com/in/noah-gullo) - Developer
+- [First Last](https://www.linkedin.com/) - Developer
+- [Moe Aung](https://www.linkedin.com/) - Developer
 
 ## Contributing
 
