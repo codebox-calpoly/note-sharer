@@ -17,6 +17,7 @@ Students struggle to find consolidated, high‑quality, course‑specific study 
 - [Noah Gullo](https://www.linkedin.com/in/noah-gullo) - Developer
 - [First Last](https://www.linkedin.com/) - Developer
 - [Moe Aung](https://www.linkedin.com/) - Developer
+- [Wieland Rodriguez](https://www.linkedin.com/in/wieland-rodriguez) - Developer
 
 ## Contributing
 
