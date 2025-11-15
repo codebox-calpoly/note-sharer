@@ -1,0 +1,18 @@
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+.envrc
+
+# Supabase local state
+.supabase
+
+# Node/Vercel build output placeholders (anticipating Next.js stack)
+.next
+out
+node_modules
+
+# OS/Editor cruft
+.DS_Store
+*.swp
+*.log
