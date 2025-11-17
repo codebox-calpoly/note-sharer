@@ -15,7 +15,7 @@ Students struggle to find consolidated, high‑quality, course‑specific study 
 - [Jonah Chan](https://www.linkedin.com/in/jonah-chan) - Tech Lead
 - [First Last](https://www.linkedin.com/) - Designer
 - [Noah Gullo](https://www.linkedin.com/in/noah-gullo) - Developer
-- [First Last](https://www.linkedin.com/) - Developer
+- [Victor Xie](https://www.linkedin.com/in/victor-xie-767626301/) - Developer
 - [Moe Aung](https://www.linkedin.com/) - Developer
 - [Wieland Rodriguez](https://www.linkedin.com/in/wieland-rodriguez) - Developer
 - [Emma Walker](https://www.linkedin.com/) - Developer
