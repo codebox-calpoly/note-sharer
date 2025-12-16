@@ -1,60 +1,64 @@
 @import "tailwindcss";
 
+
 :root {
-  --background: hsl(0, 89%, 41%);
-  --foreground: #171717;
+ --background: #ffffff;
+ --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+ :root {
+   --background: #0a0a0a;
+   --foreground: #ededed;
+ }
 }
+
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif;
+ background: var(--background);
+ color: var(--foreground);
 }
+.header{
+ font-size: 100px;
+}
+
 
 .auth-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  height: 3rem;
-  width: 100%;
-  border-radius: 9999px;
-  padding: 0 1.25rem;
-  font-weight: 600;
-  background-color: #0b0b0b;
-  color: #ffffff;
-  transition: background-color 150ms ease, color 150ms ease;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.5rem;
+ height: 3rem;
+ width: 100%;
+ border-radius: 9999px;
+ padding: 0 1.25rem;
+ font-weight: 600;
+ background-color: #0b0b0b;
+ color: #ffffff;
+ transition: background-color 150ms ease;
 }
+
 
 .auth-button:hover {
-  background-color: #27272a;
+ background-color: #27272a;
 }
+
 
 @media (min-width: 768px) {
-  .auth-button {
-    width: 158px;
-  }
+ .auth-button {
+   width: 158px;
+ }
 }
 
-.dark .auth-button {
-  background-color: #ffffff;
-  color: #0b0b0b;
+
+@media (prefers-color-scheme: dark) {
+ .auth-button {
+   background-color: #ffffff;
+   color: #0b0b0b;
+ }
+  .auth-button:hover {
+   background-color: #e5e5e5;
+ }
 }
 
-.dark .auth-button:hover {
-  background-color: #e5e5e5;
-}
