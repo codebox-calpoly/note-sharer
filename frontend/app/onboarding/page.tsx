@@ -10,6 +10,7 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -79,11 +80,34 @@ export default function OnboardingPage() {
       <section className="onboarding-card">
         <p className="onboarding-kicker">Welcome</p>
         <h1 className="onboarding-title">Finish onboarding</h1>
+
         <div className="onboarding-actions">
-          {/* Put stuff here if needed */}
-          <button className="onboarding-button" onClick={complete} disabled={saving}>
+          <label className="onboarding-terms">
+            <input
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+            />
+            <span>
+              I agree to the{" "}
+              <a
+                href="/terms-and-conditions"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Terms & Conditions
+              </a>
+            </span>
+          </label>
+
+          <button
+            className="onboarding-button"
+            onClick={complete}
+            disabled={saving || !acceptedTerms}
+          >
             {saving ? "Saving..." : "Continue to dashboard"}
           </button>
+
           {error ? <p className="onboarding-error">{error}</p> : null}
         </div>
       </section>
