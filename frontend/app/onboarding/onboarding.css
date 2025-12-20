@@ -69,6 +69,28 @@
   box-shadow: none;
 }
 
+.onboarding-secondary {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #111827;
+  border-radius: 10px;
+  padding: 0.65rem 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.onboarding-secondary:hover {
+  background: #f4f4f5;
+  transform: translateY(-1px);
+}
+
+.onboarding-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .onboarding-error {
   margin: 0;
   font-size: 0.95rem;
@@ -115,6 +137,16 @@
 
   .onboarding-button:hover {
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+  }
+
+  .onboarding-secondary {
+    background: #111827;
+    border-color: #1f2937;
+    color: #e5e7eb;
+  }
+
+  .onboarding-secondary:hover {
+    background: #0f172a;
   }
 }
 
@@ -166,5 +198,37 @@
 
   .onboarding-terms input[type="checkbox"] {
     accent-color: #93c5fd;
+  }
+}
+
+.onboarding-nickname {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.onboarding-nickname-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.onboarding-nickname-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #111827;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  min-height: 2.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .onboarding-nickname-chip {
+    background: #111827;
+    color: #e5e7eb;
   }
 }
