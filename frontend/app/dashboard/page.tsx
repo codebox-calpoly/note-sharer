@@ -181,10 +181,12 @@ export default function DashboardPage() {
 
   return (
     <main className="p-6 space-y-6">
+      {/* Header */}
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
       </header>
 
+      {/* Class Selection */}
       <section className="flex flex-wrap gap-4 items-center">
         <div className="relative min-w-[220px]">
           <label className="block text-sm mb-1">Class</label>
@@ -193,8 +195,10 @@ export default function DashboardPage() {
             className="border rounded px-2 py-1 flex items-center justify-between cursor-pointer bg-white"
             onClick={() => setIsClassDropdownOpen((open) => !open)}
           >
-            <span className="text-sm truncate">{selectedClassLabel}</span>
-            <span className="ml-2 text-xs">▾</span>
+            <span className="text-sm truncate text-gray-800">
+              {selectedClassLabel}
+            </span>
+            <span className="ml-2 text-xs text-gray-700">▾</span>
           </div>
 
           {isClassDropdownOpen && (
@@ -202,7 +206,7 @@ export default function DashboardPage() {
               <div className="p-2 border-b">
                 <input
                   type="text"
-                  className="w-full border px-2 py-1 text-sm"
+                  className="w-full border px-2 py-1 text-sm text-gray-800 placeholder:text-gray-500"
                   placeholder="Search classes…"
                   value={classSearch}
                   onChange={(e) => setClassSearch(e.target.value)}
@@ -212,7 +216,7 @@ export default function DashboardPage() {
 
               <button
                 type="button"
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
+                className="w-full text-left px-3 py-2 text-sm text-gray-800 hover:bg-gray-100"
                 onClick={() => handleSelectClass("all")}
               >
                 All classes
@@ -222,7 +226,7 @@ export default function DashboardPage() {
                 <button
                   key={c.id}
                   type="button"
-                  className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
+                  className="w-full text-left px-3 py-2 text-sm text-gray-800 hover:bg-gray-100"
                   onClick={() => handleSelectClass(c.id)}
                 >
                   {c.name}
@@ -231,7 +235,7 @@ export default function DashboardPage() {
               ))}
 
               {filteredClasses.length === 0 && (
-                <div className="px-3 py-2 text-xs text-gray-500">
+                <div className="px-3 py-2 text-xs text-gray-700">
                   No classes match “{classSearch}”
                 </div>
               )}
@@ -239,27 +243,28 @@ export default function DashboardPage() {
           )}
         </div>
 
+        {/* Filter Selection */}
         <div className="relative">
           <label className="block text-sm mb-1">Sort</label>
           <button
             type="button"
-            className="border rounded px-3 py-1 text-sm bg-white"
+            className="border rounded px-3 py-1 text-sm bg-white text-gray-800"
             onClick={() => setIsFilterOpen((open) => !open)}
           >
-            Filters ▾
+            Filters <span className="text-gray-700">▾</span>
           </button>
           {isFilterOpen && (
             <div className="absolute z-10 mt-1 w-40 border rounded bg-white shadow-md overflow-hidden">
               <button
                 type="button"
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
+                className="w-full text-left px-3 py-2 text-sm text-gray-800 hover:bg-gray-100"
                 onClick={() => handleSelectSort("newest")}
               >
                 Newest
               </button>
               <button
                 type="button"
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
+                className="w-full text-left px-3 py-2 text-sm text-gray-800 hover:bg-gray-100"
                 onClick={() => handleSelectSort("oldest")}
               >
                 Oldest
@@ -271,11 +276,11 @@ export default function DashboardPage() {
 
       <section>
         {classesError && (
-          <p className="text-sm text-red-600 mb-2">{classesError}</p>
+          <p className="text-sm text-red-500 mb-2">{classesError}</p>
         )}
 
         {notesError && (
-          <p className="text-sm text-red-600 mb-2">{notesError}</p>
+          <p className="text-sm text-red-500 mb-2">{notesError}</p>
         )}
 
         <ul className="divide-y">
@@ -286,27 +291,33 @@ export default function DashboardPage() {
                   {note.previewUrl ? (
                     <PDFThumbnail fileUrl={note.previewUrl} width={200} />
                   ) : (
-                    <div className="w-[200px] h-[280px] bg-gray-100 border rounded flex items-center justify-center text-xs text-gray-400">
+                    <div className="w-[200px] h-[280px] bg-gray-100 border rounded flex items-center justify-center text-xs text-gray-600">
                       No preview
                     </div>
                   )}
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-black/50 text-white px-3 py-2 flex flex-col justify-end gap-1 rounded-b">
+                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-black/60 text-white px-3 py-2 flex flex-col justify-end gap-1 rounded-b">
                     <div className="text-sm font-semibold leading-tight line-clamp-2">
                       {note.title}
                     </div>
-                    <div className="text-[11px] text-gray-200 leading-tight">
+                    <div className="text-[11px] text-gray-100 leading-tight">
                       <span className="font-medium">
                         {note.profile_display_name ?? "Unknown uploader"}
                       </span>
                       {" • "}
                       {new Date(note.created_at).toLocaleDateString()}
                     </div>
-                  <div className="text-[11px]">
-                      <span className="text-green-200 font-semibold">↑ {note.upvote_count ?? 0}</span>
+                    <div className="text-[11px] text-gray-100">
+                      <span className="text-green-200 font-semibold">
+                        ↑ {note.upvote_count ?? 0}
+                      </span>
                       {" / "}
-                      <span className="text-red-200 font-semibold">↓ {note.downvote_count ?? 0}</span>
+                      <span className="text-red-200 font-semibold">
+                        ↓ {note.downvote_count ?? 0}
+                      </span>
                       {" • "}
-                      <span className="text-gray-100 font-semibold">Score: {note.score ?? 0}</span>
+                      <span className="font-semibold">
+                        Score: {note.score ?? 0}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -316,25 +327,25 @@ export default function DashboardPage() {
         </ul>
 
         {loadingNotes && (
-          <p className="mt-3 text-sm text-gray-500">Loading notes…</p>
+          <p className="mt-3 text-sm text-gray-600">Loading notes…</p>
         )}
 
         {!loadingNotes && hasMore && (
           <button
             type="button"
             onClick={handleLoadMore}
-            className="mt-4 border rounded px-3 py-1 text-sm"
+            className="mt-4 border rounded px-3 py-1 text-sm text-gray-800 bg-white"
           >
             Load more
           </button>
         )}
 
         {!loadingNotes && !hasMore && notes.length > 0 && (
-          <p className="mt-3 text-xs text-gray-400">No more notes to load.</p>
+          <p className="mt-3 text-xs text-gray-600">No more notes to load.</p>
         )}
 
         {!loadingNotes && notes.length === 0 && !notesError && (
-          <p className="mt-3 text-sm text-gray-500">No notes found.</p>
+          <p className="mt-3 text-sm text-gray-600">No notes found.</p>
         )}
       </section>
     </main>
