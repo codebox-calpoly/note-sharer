@@ -3,10 +3,9 @@
  * Generates random names like "PurpleElephant42", "SwiftTiger89", etc.
  */
 
-import { createClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
-// Infer the SupabaseClient type from createClient
-type SupabaseClient = ReturnType<typeof createClient>;
+type AnySupabaseClient = SupabaseClient<{ public: unknown }>;
 
 // Adjectives for the first part of the nickname
 const ADJECTIVES = [
@@ -51,7 +50,7 @@ export function generateRandomNickname(): string {
  */
 export async function isNicknameUnique(
   nickname: string,
-  supabaseClient: SupabaseClient
+  supabaseClient: AnySupabaseClient
 ): Promise<boolean> {
   const { data, error } = await supabaseClient
     .from("profiles")
@@ -79,7 +78,7 @@ export async function isNicknameUnique(
  * @throws Error if unable to generate unique nickname after maxAttempts
  */
 export async function generateUniqueNickname(
-  supabaseClient: SupabaseClient,
+  supabaseClient: AnySupabaseClient,
   maxAttempts: number = 10
 ): Promise<string> {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {

@@ -1,0 +1,234 @@
+.onboarding-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f6f7fb;
+  color: #0b0b0b;
+  padding: 2rem;
+}
+
+.onboarding-card {
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 14px;
+  padding: 2rem;
+  width: min(760px, 100%);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.onboarding-kicker {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.onboarding-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.onboarding-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.onboarding-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.6rem;
+  background: linear-gradient(120deg, #111827, #0f172a);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.15);
+}
+
+.onboarding-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 36px rgba(17, 24, 39, 0.2);
+}
+
+.onboarding-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.onboarding-secondary {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #111827;
+  border-radius: 10px;
+  padding: 0.65rem 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.onboarding-secondary:hover {
+  background: #f4f4f5;
+  transform: translateY(-1px);
+}
+
+.onboarding-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.onboarding-error {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #b91c1c;
+}
+
+.onboarding-status {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+@media (max-width: 640px) {
+  .onboarding-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .onboarding-page {
+    background: #0a0a0f;
+    color: #ededed;
+  }
+
+  .onboarding-card {
+    background: #0d0f16;
+    border-color: #1f2937;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+  }
+
+  .onboarding-body {
+    color: #a1a1aa;
+  }
+
+  .onboarding-list {
+    color: #e5e7eb;
+  }
+
+  .onboarding-button {
+    background: linear-gradient(120deg, #ffffff, #e5e7eb);
+    color: #0b0b0b;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .onboarding-button:hover {
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+  }
+
+  .onboarding-secondary {
+    background: #111827;
+    border-color: #1f2937;
+    color: #e5e7eb;
+  }
+
+  .onboarding-secondary:hover {
+    background: #0f172a;
+  }
+}
+
+.onboarding-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.4;
+  max-width: 520px;
+}
+
+.onboarding-terms input[type="checkbox"] {
+  margin-top: 0.15rem;
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.onboarding-terms a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.onboarding-terms a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.onboarding-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .onboarding-terms {
+    color: #d1d5db;
+  }
+
+  .onboarding-terms a {
+    color: #93c5fd;
+  }
+
+  .onboarding-terms input[type="checkbox"] {
+    accent-color: #93c5fd;
+  }
+}
+
+.onboarding-nickname {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.onboarding-nickname-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.onboarding-nickname-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #111827;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  min-height: 2.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .onboarding-nickname-chip {
+    background: #111827;
+    color: #e5e7eb;
+  }
+}
