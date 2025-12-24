@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import PDFThumbnail from "@/app/components/pdf/PDFThumbnail";
 
@@ -32,6 +33,7 @@ export default function DashboardPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [tokenLoaded, setTokenLoaded] = useState(false);
+  const [isUploadOpen, setIsUploadOpen] = useState(false);
 
   const [notes, setNotes] = useState<Note[]>([]);
   const [page, setPage] = useState(1);
@@ -39,6 +41,8 @@ export default function DashboardPage() {
   const [loadingNotes, setLoadingNotes] = useState(false);
   const [notesError, setNotesError] = useState<string | null>(null);
   const [classesError, setClassesError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const loadSession = async () => {
@@ -68,8 +72,9 @@ export default function DashboardPage() {
         });
         if (!res.ok) {
           const errorPayload =
-            (await res.json().catch(async () => ({ error: await res.text().catch(() => "") }))) ||
-            {};
+            (await res.json().catch(async () => ({
+              error: await res.text().catch(() => ""),
+            }))) || {};
           setClassesError(errorPayload.error || "Failed to load classes");
           setClasses([]);
           return;
@@ -119,8 +124,9 @@ export default function DashboardPage() {
         });
         if (!res.ok) {
           const errorPayload =
-            (await res.json().catch(async () => ({ error: await res.text().catch(() => "") }))) ||
-            {};
+            (await res.json().catch(async () => ({
+              error: await res.text().catch(() => ""),
+            }))) || {};
           setNotesError(errorPayload.error || "Failed to fetch notes");
           setHasMore(false);
           setLoadingNotes(false);
@@ -184,6 +190,13 @@ export default function DashboardPage() {
       {/* Header */}
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <button
+          type="button"
+          className="border rounded px-3 py-1 text-sm bg-white text-gray-800"
+          onClick={() => router.replace("/upload")}
+        >
+          {isUploadOpen ? "Cancel" : "Upload"}
+        </button>
       </header>
 
       {/* Class Selection */}
@@ -274,6 +287,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
+      {/* Notes list */}
       <section>
         {classesError && (
           <p className="text-sm text-red-500 mb-2">{classesError}</p>
