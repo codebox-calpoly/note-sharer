@@ -72,15 +72,9 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
                 href="/auth"
-                className="w-full sm:w-auto px-10 py-3 bg-emerald-900 text-amber-200 rounded-full font-semibold text-lg hover:bg-emerald-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 border border-emerald-950/60"
-              >
-                Sign in
-              </a>
-              <a
-                href="/register"
                 className="w-full sm:w-auto px-10 py-3 bg-amber-50 dark:bg-emerald-950 text-emerald-900 dark:text-amber-200 border-2 border-amber-500/80 rounded-full font-semibold text-lg hover:bg-amber-100 dark:hover:bg-emerald-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
-                Create Account
+                Sign In/Register
               </a>
             </div>
           </div>
