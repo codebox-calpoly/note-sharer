@@ -169,5 +169,37 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // update credit_score in profiles database
+
+  // read current credit_score
+  const { data: profile, error: readError } = await adminClient
+    .from("profiles")
+    .select("credit_score")
+    .eq("id", userId)
+    .single();
+
+  if (readError || !profile) {
+    return NextResponse.json(
+      { error: "failed to read credit score", details: readError?.message },
+      { status: 500 },
+    );
+  }
+
+  // create new credit_score
+  const newCreditScore = (profile.credit_score ?? 0) + 5;
+
+  // update credit_score in database
+  const { error: updateError } = await adminClient
+    .from("profiles")
+    .update({ credit_score: newCreditScore })
+    .eq("id", userId);
+
+  if (updateError) {
+    return NextResponse.json(
+      { error: "failed to update credit score", details: updateError.message },
+      { status: 500 },
+    );
+  }
+
   return NextResponse.json({ data: resource }, { status: 200 });
 }

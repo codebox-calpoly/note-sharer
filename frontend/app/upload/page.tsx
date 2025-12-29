@@ -162,6 +162,8 @@ export default function UploadPage() {
     }
 
     setResult(`${res.status}: ${JSON.stringify(payload)}`);
+
+
   };
 
   return (
@@ -252,7 +254,7 @@ export default function UploadPage() {
 
         {/* remove in production, kept for testing purposes */}
 
-        <div>
+        {/*<div>
           <label className="block text-sm mb-1">Access Token (Bearer)</label>
           <input
             className="border px-2 py-1 w-full"
@@ -260,7 +262,7 @@ export default function UploadPage() {
             onChange={(e) => setAccessToken(e.target.value)}
             placeholder="Paste a user access token"
           />
-        </div>
+        </div>*/}
 
         {submitError && (
           <p className="text-sm text-red-600">{submitError}</p>
