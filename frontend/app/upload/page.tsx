@@ -4,6 +4,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+import "./upload.css";
 
 export default function UploadPage() {
   const [classes, setClasses] = useState<ClassOption[]>([]);
@@ -22,6 +23,8 @@ export default function UploadPage() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // Authentications
   useEffect(() => {
@@ -112,24 +115,37 @@ export default function UploadPage() {
     fetchClasses();
   }, [accessToken, tokenLoaded]);
 
+  useEffect(() => {
+    if (!isSuccess) return;
+    const timer = window.setTimeout(() => {
+      router.push("/dashboard");
+    }, 1500);
+    return () => window.clearTimeout(timer);
+  }, [isSuccess, router]);
+
   // File Upload
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError(null);
     setResult(null);
+    setIsUploading(true);
+    setIsSuccess(false);
 
     if (!file) {
       setSubmitError("No file selected");
+      setIsUploading(false);
       return;
     }
 
     if (!classId || classId === "all") {
       setSubmitError("Please select a class before uploading.");
+      setIsUploading(false);
       return;
     }
 
     if (!accessToken) {
       setSubmitError("Missing access token. Please re-authenticate.");
+      setIsUploading(false);
       return;
     }
 
@@ -138,31 +154,81 @@ export default function UploadPage() {
     formData.append("class_id", classId);
     formData.append("title", title);
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    let payload: unknown;
     try {
-      if (res.headers.get("content-type")?.includes("application/json")) {
-        payload = await res.json();
-      } else {
-        const text = await res.text();
-        payload = text ? { message: text } : null;
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      let payload: unknown;
+      try {
+        if (res.headers.get("content-type")?.includes("application/json")) {
+          payload = await res.json();
+        } else {
+          const text = await res.text();
+          payload = text ? { message: text } : null;
+        }
+      } catch (error) {
+        payload = {
+          error: "Response was not valid JSON",
+          details: String(error),
+        };
       }
+
+      if (!res.ok) {
+        const message =
+          typeof payload === "object" && payload && "error" in payload
+            ? String((payload as { error?: string }).error)
+            : "Upload failed. Please try again.";
+        setSubmitError(message);
+        setIsUploading(false);
+        return;
+      }
+
+      setResult(`${res.status}: ${JSON.stringify(payload)}`);
+      setIsSuccess(true);
     } catch (error) {
-      payload = {
-        error: "Response was not valid JSON",
-        details: String(error),
-      };
+      setSubmitError("Upload failed. Please check your connection and retry.");
+    } finally {
+      setIsUploading(false);
     }
 
-    setResult(`${res.status}: ${JSON.stringify(payload)}`);
+    //json for deubgging purposes
+    //setResult(`${res.status}: ${JSON.stringify(payload)}`);
   };
+
+  if (isUploading) {
+    return (
+      <main className="upload-status-screen">
+        <div className="upload-status-card">
+          <div className="upload-spinner" aria-hidden="true" />
+          <h1 className="upload-status-title">Uploading your notes…</h1>
+          <p className="upload-status-subtitle">
+            Hang tight while we save your file.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  if (isSuccess) {
+    return (
+      <main className="upload-status-screen">
+        <div className="upload-status-card">
+          <div className="upload-success-check" aria-hidden="true">
+            ✓
+          </div>
+          <h1 className="upload-status-title">Upload successful</h1>
+          <p className="upload-status-subtitle">
+            Redirecting you to your dashboard…
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="m-4 border rounded bg-blue shadow-sm p-6 space-y-4">
@@ -252,7 +318,7 @@ export default function UploadPage() {
 
         {/* remove in production, kept for testing purposes */}
 
-        <div>
+        {/*<div>
           <label className="block text-sm mb-1">Access Token (Bearer)</label>
           <input
             className="border px-2 py-1 w-full"
@@ -260,7 +326,7 @@ export default function UploadPage() {
             onChange={(e) => setAccessToken(e.target.value)}
             placeholder="Paste a user access token"
           />
-        </div>
+        </div>*/}
 
         {submitError && (
           <p className="text-sm text-red-600">{submitError}</p>
