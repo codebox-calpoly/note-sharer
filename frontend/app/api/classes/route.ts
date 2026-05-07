@@ -230,6 +230,9 @@ export async function GET(request: Request) {
     ? normalizeCourseSearchQuery(searchParamRaw).slice(0, 80)
     : null;
   const includeEnrolled = searchParams.get("include_enrolled") === "1";
+  // catalog_year: 2526 = 2025-2026 (default), 2627 = 2026-2027
+  const catalogYearParam = searchParams.get("catalog_year");
+  const catalogYear = catalogYearParam ? parseInt(catalogYearParam, 10) : 2526;
   const paginated = limitParam != null && limitParam !== "";
   const limit = paginated ? Math.min(Math.max(1, parseInt(limitParam, 10) || PAGE_SIZE), 1000) : PAGE_SIZE;
   const offset = paginated ? Math.max(0, parseInt(offsetParam ?? "0", 10)) : 0;
@@ -276,6 +279,7 @@ export async function GET(request: Request) {
     let codeQuery = supabase
       .from("courses")
       .select("id, title, department, course_number, term, year")
+      .eq("catalog_year", catalogYear)
       .order("department", { ascending: true })
       .order("course_number", { ascending: true })
       .limit(hasSpace ? 2000 : searchLimit);
@@ -291,6 +295,7 @@ export async function GET(request: Request) {
         ? supabase
             .from("courses")
             .select("id, title, department, course_number, term, year")
+            .eq("catalog_year", catalogYear)
             .order("department", { ascending: true })
             .order("course_number", { ascending: true })
             .in("department", aliasDepartmentCodes)
@@ -299,6 +304,7 @@ export async function GET(request: Request) {
       supabase
         .from("courses")
         .select("id, title, department, course_number, term, year")
+        .eq("catalog_year", catalogYear)
         .order("title", { ascending: true })
         .ilike("title", `%${searchParam}%`)
         .limit(TITLE_SEARCH_CANDIDATE_LIMIT),
@@ -371,6 +377,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from("courses")
       .select("id, title, department, course_number, term, year")
+      .eq("catalog_year", catalogYear)
       .order("title", { ascending: true })
       .range(offset, offset + limit - 1);
     if (departmentParam) query = query.eq("department", departmentParam);
@@ -416,6 +423,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from("courses")
       .select("id, title, department, course_number, term, year")
+      .eq("catalog_year", catalogYear)
       .order("title", { ascending: true })
       .range(currentOffset, currentOffset + PAGE_SIZE - 1);
     if (departmentParam) query = query.eq("department", departmentParam);

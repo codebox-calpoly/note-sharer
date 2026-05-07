@@ -682,3 +682,32 @@
     display: none;
   }
 }
+
+/* Catalog filter checkbox styles */
+.browse-filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background var(--theme-transition);
+}
+
+.browse-filter-checkbox:hover {
+  background: var(--poly-sage-soft);
+}
+
+.browse-filter-checkbox input[type="radio"] {
+  cursor: pointer;
+  accent-color: var(--poly-sage);
+}
+
+.browse-filter-checkbox span {
+  font-size: 0.875rem;
+  color: var(--poly-text-primary);
+}
+
+[data-theme="dark"] .browse-filter-checkbox span {
+  color: #e5e5e5;
+}

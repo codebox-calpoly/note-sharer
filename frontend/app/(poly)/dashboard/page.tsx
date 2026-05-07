@@ -73,6 +73,7 @@ export default function DashboardPage() {
   const [coursesLoading, setCoursesLoading] = useState(false);
   const [coursesLoadingMore, setCoursesLoadingMore] = useState(false);
   const [departments, setDepartments] = useState<DepartmentRecord[]>(() => [...CALPOLY_DEPARTMENTS]);
+  const [catalogYear, setCatalogYear] = useState<2526 | 2627>(2526);
   /** Number of course cards to render (paginated for performance). */
   const [visibleCourseCount, setVisibleCourseCount] = useState(80);
   /** When no department selected, whether the API has more courses to fetch. */
@@ -158,7 +159,8 @@ export default function DashboardPage() {
       token: string,
       offset: number,
       department: string | null,
-      limit: number
+      limit: number,
+      catYear: number
     ): Promise<
       | { ok: true; classes: CourseOption[]; enrolledClasses: CourseOption[]; hasMore: boolean }
       | { ok: false; error: string }
@@ -167,6 +169,7 @@ export default function DashboardPage() {
       params.set("limit", String(limit));
       params.set("offset", String(offset));
       params.set("include_enrolled", "1");
+      params.set("catalog_year", String(catYear));
       if (department?.trim()) params.set("department", department.trim());
       const res = await fetch(`/api/classes?${params.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -190,7 +193,7 @@ export default function DashboardPage() {
   );
 
   const fetchCoursesBySearch = useCallback(
-    async (token: string, search: string): Promise<
+    async (token: string, search: string, catYear: number): Promise<
       | { ok: true; classes: CourseOption[]; enrolledClasses: CourseOption[] }
       | { ok: false; error: string }
     > => {
@@ -200,6 +203,7 @@ export default function DashboardPage() {
       params.set("search", normalized);
       params.set("limit", "500");
       params.set("include_enrolled", "1");
+      params.set("catalog_year", String(catYear));
       const res = await fetch(`/api/classes?${params.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -236,10 +240,11 @@ export default function DashboardPage() {
           0,
           selectedDepartment,
           pageSize,
+          catalogYear,
         );
         if (res.ok === false && res.error === "Not authenticated") {
           const newToken = await refreshToken();
-          if (newToken) res = await fetchCoursesPage(newToken, 0, selectedDepartment, pageSize);
+          if (newToken) res = await fetchCoursesPage(newToken, 0, selectedDepartment, pageSize, catalogYear);
         }
         if (!active) return;
         if (res.ok === false) {
@@ -270,7 +275,7 @@ export default function DashboardPage() {
       active = false;
       window.clearTimeout(loadingTimer);
     };
-  }, [accessToken, tokenLoaded, selectedDepartment, refreshToken, fetchCoursesPage]);
+  }, [accessToken, tokenLoaded, selectedDepartment, catalogYear, refreshToken, fetchCoursesPage]);
 
   const SEARCH_DEBOUNCE_MS = 280;
 
@@ -320,7 +325,7 @@ export default function DashboardPage() {
         }
       if (!accessToken) return;
       setSearchLoading(true);
-        fetchCoursesBySearch(accessToken, normalized)
+        fetchCoursesBySearch(accessToken, normalized, catalogYear)
           .then((res) => {
             if (res.ok) {
               searchCacheRef.current.set(normalized, {
@@ -335,7 +340,7 @@ export default function DashboardPage() {
           if (res.error === "Not authenticated") {
             refreshToken().then((newToken) => {
               if (newToken) {
-                fetchCoursesBySearch(newToken, normalized).then((r) => {
+                fetchCoursesBySearch(newToken, normalized, catalogYear).then((r) => {
                   if (r.ok) {
                     searchCacheRef.current.set(normalized, {
                       classes: r.classes,
@@ -363,7 +368,7 @@ export default function DashboardPage() {
     return () => {
       clearSearchDebounce();
     };
-  }, [browseSearch, selectedDepartment, accessToken, refreshToken, fetchCoursesBySearch]);
+  }, [browseSearch, selectedDepartment, catalogYear, accessToken, refreshToken, fetchCoursesBySearch]);
 
   const fetchCredits = useCallback(
     async (token: string | null) => {
@@ -631,11 +636,12 @@ export default function DashboardPage() {
             offset,
             null,
             INITIAL_PAGE_SIZE,
+            catalogYear,
           );
           if (res.ok === false && res.error === "Not authenticated") {
             const newToken = await refreshToken();
             if (newToken) {
-              res = await fetchCoursesPage(newToken, offset, null, INITIAL_PAGE_SIZE);
+              res = await fetchCoursesPage(newToken, offset, null, INITIAL_PAGE_SIZE, catalogYear);
             }
           }
         if (cancelled) return;
@@ -656,10 +662,19 @@ export default function DashboardPage() {
       })();
       return () => { cancelled = true };
     }
-  }, [hasMoreToShow, hasMoreToFetch, coursesLoadingMore, accessToken, courses.length, allDisplayCourses.length, refreshToken, fetchCoursesPage]);
+  }, [hasMoreToShow, hasMoreToFetch, coursesLoadingMore, accessToken, courses.length, allDisplayCourses.length, catalogYear, refreshToken, fetchCoursesPage]);
 
   const clearFilters = () => {
     setSelectedDepartment(null);
+  };
+
+  const handleCatalogYearChange = (year: 2526 | 2627) => {
+    setCatalogYear(year);
+    setSelectedDepartment(null);
+    setBrowseSearch("");
+    setSearchResults(null);
+    setSearchEnrolledResults(null);
+    searchCacheRef.current.clear();
   };
 
   const hasActiveFilters = selectedDepartment != null;
@@ -696,6 +711,33 @@ export default function DashboardPage() {
             >
               Clear all filters
             </button>
+          </div>
+          <div className="browse-filter-section">
+            <span className="browse-filter-heading">Catalogs</span>
+            <div className="browse-filter-options">
+              <label className="browse-filter-checkbox">
+                <input
+                  type="radio"
+                  name="catalog-year"
+                  value="2526"
+                  checked={catalogYear === 2526}
+                  onChange={() => handleCatalogYearChange(2526)}
+                  aria-label="2025-26 catalog"
+                />
+                <span>2025–26</span>
+              </label>
+              <label className="browse-filter-checkbox">
+                <input
+                  type="radio"
+                  name="catalog-year"
+                  value="2627"
+                  checked={catalogYear === 2627}
+                  onChange={() => handleCatalogYearChange(2627)}
+                  aria-label="2026-28 catalog"
+                />
+                <span>2026–28</span>
+              </label>
+            </div>
           </div>
           <div className="browse-filter-section">
             <span className="browse-filter-heading">Department</span>
