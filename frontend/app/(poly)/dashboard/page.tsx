@@ -866,19 +866,9 @@ export default function DashboardPage() {
                       <div className="browse-course-card-top">
                         <div className="browse-course-card-info">
                           <p className="browse-course-code">{course.code ?? course.name}</p>
-                          <p className="browse-course-title">{course.name.replace(/\s*\(\d+(?:-\d+)?\s*units?\)\s*$/i, '')}</p>
                           {(() => {
-                            // Try to get units from lookup table (2026-28 catalog)
-                            let subline = getCourseSubline(course.code);
-                            // If no lookup, try to extract from course name (2025-26 catalog)
-                            if (!subline) {
-                              const unitsMatch = course.name.match(/\((\d+(?:-\d+)?)\s*units?\)/i);
-                              if (unitsMatch) {
-                                const units = unitsMatch[1];
-                                subline = units === '1' ? '(1 unit)' : `(${units} units)`;
-                              }
-                            }
-                            return subline ? <p className="browse-course-subline">{subline}</p> : null;
+                            const subline = getCourseSubline(course.code);
+                            return subline ? <p className="browse-course-subline">{subline}</p> : <p className="browse-course-title">{course.name}</p>;
                           })()}
                         </div>
                         <span className="browse-course-badge browse-course-badge--enrolled">
@@ -911,19 +901,9 @@ export default function DashboardPage() {
                   <div className="browse-course-card-top">
                     <div className="browse-course-card-info">
                       <p className="browse-course-code">{course.code ?? course.name}</p>
-                      <p className="browse-course-title">{course.name.replace(/\s*\(\d+(?:-\d+)?\s*units?\)\s*$/i, '')}</p>
                       {(() => {
-                        // Try to get units from lookup table (2026-28 catalog)
-                        let subline = getCourseSubline(course.code);
-                        // If no lookup, try to extract from course name (2025-26 catalog)
-                        if (!subline) {
-                          const unitsMatch = course.name.match(/\((\d+(?:-\d+)?)\s*units?\)/i);
-                          if (unitsMatch) {
-                            const units = unitsMatch[1];
-                            subline = units === '1' ? '(1 unit)' : `(${units} units)`;
-                          }
-                        }
-                        return subline ? <p className="browse-course-subline">{subline}</p> : null;
+                        const subline = getCourseSubline(course.code);
+                        return subline ? <p className="browse-course-subline">{subline}</p> : <p className="browse-course-title">{course.name}</p>;
                       })()}
                     </div>
                     {course.department && (
