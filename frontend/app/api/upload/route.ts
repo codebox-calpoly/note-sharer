@@ -265,14 +265,10 @@ export async function POST(req: NextRequest) {
     console.warn("[upload] Text extraction failed, storing without extracted_text:", extractErr);
   }
 
-  // Only admin/moderator/developer roles get notes auto-approved (for test notes); others stay pending for moderator review.
-  let status: "pending" | "active" = "pending";
-  const { data: roles } = await adminClient
-    .from("user_roles")
-    .select("role")
-    .eq("profile_id", userId)
-    .in("role", ["admin", "moderator", "developer"]);
-  if (roles && roles.length > 0) status = "active";
+  // Auto-approve all notes (set to active status)
+  let status: "pending" | "active" = "active";
+  // Note: Previously only admin/moderator/developer roles got auto-approved
+  // Now all notes are auto-approved to give credits immediately
 
   const { data: resource, error: insertError } = await supabase
     .from("resources")
