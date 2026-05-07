@@ -170,6 +170,29 @@
   color: var(--poly-neutral-muted);
 }
 
+.course-detail-refresh-btn {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--poly-border-strong);
+  background: var(--poly-surface-raised);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--poly-neutral-dark);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.course-detail-refresh-btn:hover:not(:disabled) {
+  background: var(--poly-sage-soft);
+  border-color: var(--poly-sage);
+  color: var(--poly-sage);
+}
+
+.course-detail-refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Note cards grid – no download on card */
 .course-detail-note-grid {
   display: grid;

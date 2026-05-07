@@ -166,7 +166,38 @@ export async function GET(req: Request) {
   query = query.order("created_at", { ascending: sort === "oldest" });
 
   if (classId && classId !== "all") {
-    query = query.eq("course_id", classId);
+    // Some catalogs (e.g. 2025-26) seed the same course under multiple terms with
+    // different UUIDs. Resolve the requested class_id to all sibling course rows
+    // (same department + course_number + catalog_year) so notes uploaded on any
+    // duplicate row are all visible on the course page.
+    const { data: baseCourse } = await adminClient
+      .from("courses")
+      .select("id, department, course_number, catalog_year")
+      .eq("id", classId)
+      .maybeSingle();
+
+    let siblingIds: string[] = [classId];
+    if (
+      baseCourse &&
+      baseCourse.department != null &&
+      baseCourse.course_number != null
+    ) {
+      const { data: siblings } = await adminClient
+        .from("courses")
+        .select("id")
+        .eq("department", baseCourse.department)
+        .eq("course_number", baseCourse.course_number)
+        .eq("catalog_year", baseCourse.catalog_year);
+      if (siblings && siblings.length > 0) {
+        siblingIds = siblings.map((row: { id: string }) => row.id);
+      }
+    }
+
+    if (siblingIds.length === 1) {
+      query = query.eq("course_id", siblingIds[0]);
+    } else {
+      query = query.in("course_id", siblingIds);
+    }
   }
   if (noteId) {
     query = query.eq("id", noteId);
@@ -175,15 +206,12 @@ export async function GET(req: Request) {
   // Over-fetch one row to compute hasMore without expensive exact counts.
   query = query.range(from, to + 1);
 
-  console.log("Fetching notes with classId:", classId, "page:", page, "pageSize:", pageSize);
   const { data, error } = await query.returns<ResourceRow[]>();
 
   if (error) {
     console.error("Notes query error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-
-  console.log("Notes query returned:", data?.length ?? 0, "rows");
 
   const rows = data ?? [];
   const hasMore = rows.length > pageSize;

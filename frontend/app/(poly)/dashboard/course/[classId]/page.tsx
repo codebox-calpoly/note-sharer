@@ -270,6 +270,19 @@ function CourseDetailPage() {
   );
   useRegisterNavRight(browseNavRight);
 
+  // Refetch notes when page comes into focus (visibility API)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && page === 1 && classId) {
+        setNotesVersion((v) => v + 1);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [page, classId]);
+
   useEffect(() => {
     if (!tokenLoaded || !classId) return;
     const fetchNotes = async () => {
@@ -280,6 +293,7 @@ function CourseDetailPage() {
       params.set("page", String(page));
       params.set("page_size", "16");
       params.set("sort", sortOrder);
+      params.set("_t", String(Date.now())); // Cache buster
       if (resourceTypeFilter) params.set("resource_type", resourceTypeFilter);
       if (noteSearchQuery.trim()) params.set("search", noteSearchQuery.trim());
       try {
@@ -979,6 +993,18 @@ function CourseDetailPage() {
             <span className="course-detail-notes-count">
               {filteredNotes.length} notes available
             </span>
+            <button
+              type="button"
+              className="course-detail-refresh-btn"
+              onClick={() => {
+                setPage(1);
+                setNotesVersion((v) => v + 1);
+              }}
+              disabled={loadingNotes}
+              title="Refresh notes"
+            >
+              {loadingNotes ? "Refreshing…" : "Refresh"}
+            </button>
           </div>
 
           {downloadError && (
