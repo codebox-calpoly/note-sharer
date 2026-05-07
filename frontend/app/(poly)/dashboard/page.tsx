@@ -867,6 +867,10 @@ export default function DashboardPage() {
                         <div className="browse-course-card-info">
                           <p className="browse-course-code">{course.code ?? course.name}</p>
                           <p className="browse-course-title">{course.name}</p>
+                          {(() => {
+                            const subline = getCourseSubline(course.code);
+                            return subline ? <p className="browse-course-subline">{subline}</p> : null;
+                          })()}
                         </div>
                         <span className="browse-course-badge browse-course-badge--enrolled">
                           Enrolled
@@ -899,6 +903,10 @@ export default function DashboardPage() {
                     <div className="browse-course-card-info">
                       <p className="browse-course-code">{course.code ?? course.name}</p>
                       <p className="browse-course-title">{course.name}</p>
+                      {(() => {
+                        const subline = getCourseSubline(course.code);
+                        return subline ? <p className="browse-course-subline">{subline}</p> : null;
+                      })()}
                     </div>
                     {course.department && (
                       <span className="browse-course-badge">{course.department}</span>
