@@ -170,6 +170,7 @@ async function getEnrolledClassesPayload(
     .map((course) => ({
       ...course,
       note_count: 0,
+      description: course.description ?? null,
     }))
     .filter((course) => (predicate ? predicate(course) : true));
 

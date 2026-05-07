@@ -17,6 +17,7 @@ type EnrollmentCourseJoinRow = {
         course_number: string | null;
         term: string | null;
         year: number | null;
+        description: string | null;
       }
     | {
         id: string;
@@ -25,6 +26,7 @@ type EnrollmentCourseJoinRow = {
         course_number: string | null;
         term: string | null;
         year: number | null;
+        description: string | null;
       }[]
     | null;
 };
@@ -36,6 +38,7 @@ export type EnrollmentClass = {
   department: string | null;
   term: string | null;
   year: number | null;
+  description: string | null;
 };
 
 export type EnrollmentState = {
@@ -84,6 +87,7 @@ function toEnrollmentClass(row: EnrollmentCourseJoinRow): EnrollmentClass | null
     department: course.department ?? null,
     term: course.term ?? null,
     year: course.year ?? null,
+    description: course.description ?? null,
   };
 }
 

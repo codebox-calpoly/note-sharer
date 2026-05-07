@@ -7,6 +7,7 @@ export type SearchableCourseRow = {
   course_number: number | null;
   term: string | null;
   year: number | null;
+  description: string | null;
 };
 
 export function rankAndLimitCourseRows(
