@@ -418,8 +418,8 @@ export default function DashboardPage() {
   /** Departments filtered by sidebar search (substring match, updates as you type). */
   const filteredDepartments = useMemo(() => {
     const q = departmentFilterSearch.trim();
-    if (!q) return departments;
-    return getMatchingDepartments(departments, q);
+    const filtered = q ? getMatchingDepartments(departments, q) : departments;
+    return filtered.filter((dept) => dept.code !== "TEST");
   }, [departments, departmentFilterSearch]);
 
   const openCourseRequest = () => {
@@ -586,6 +586,8 @@ export default function DashboardPage() {
         ? filterAndSortCoursesBySearchOrder(list, normalizedQuery)
         : sortCoursesBySearchOrder(list, normalizedQuery);
     }
+    // Filter out TEST department
+    list = list.filter((c) => c.department !== "TEST");
     const seen = new Map<string, CourseOption>();
     for (const c of list) {
       const key = c.code ?? `${c.department ?? ""} ${c.id}`.trim();
@@ -610,10 +612,12 @@ export default function DashboardPage() {
   const displayedEnrolledCourses = useMemo(() => {
     const source = isSearchMode ? searchEnrolledResults ?? [] : enrolledCourses;
     const normalizedQuery = normalizeCourseSearchQuery(browseSearch);
-    if (isSearchMode) return [...source];
+    let result = isSearchMode ? [...source] : source;
+    // Filter out TEST department
+    result = result.filter((c) => c.department !== "TEST");
     return normalizedQuery
-      ? filterAndSortCoursesBySearchOrder(source, normalizedQuery)
-      : sortCoursesBySearchOrder(source, normalizedQuery);
+      ? filterAndSortCoursesBySearchOrder(result, normalizedQuery)
+      : sortCoursesBySearchOrder(result, normalizedQuery);
   }, [browseSearch, enrolledCourses, isSearchMode, searchEnrolledResults]);
 
   const coursesToRender = allDisplayCourses.slice(0, visibleCourseCount);
