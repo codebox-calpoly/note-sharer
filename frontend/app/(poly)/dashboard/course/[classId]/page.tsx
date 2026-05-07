@@ -287,12 +287,14 @@ function CourseDetailPage() {
           headers: accessToken
             ? { Authorization: `Bearer ${accessToken}` }
             : undefined,
+          cache: "no-store",
         });
         if (res.status === 401) {
           const newToken = await refreshToken();
           if (newToken) {
             res = await fetch(`/api/notes?${params.toString()}`, {
               headers: { Authorization: `Bearer ${newToken}` },
+              cache: "no-store",
             });
           }
         }
