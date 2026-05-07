@@ -175,11 +175,15 @@ export async function GET(req: Request) {
   // Over-fetch one row to compute hasMore without expensive exact counts.
   query = query.range(from, to + 1);
 
+  console.log("Fetching notes with classId:", classId, "page:", page, "pageSize:", pageSize);
   const { data, error } = await query.returns<ResourceRow[]>();
 
   if (error) {
+    console.error("Notes query error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  console.log("Notes query returned:", data?.length ?? 0, "rows");
 
   const rows = data ?? [];
   const hasMore = rows.length > pageSize;

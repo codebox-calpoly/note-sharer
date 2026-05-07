@@ -346,7 +346,7 @@ export default function UploadPage() {
     const fetchClasses = async () => {
       try {
         const res = await fetch(
-          `/api/classes?limit=1000&offset=0&department=${encodeURIComponent(department.trim())}`,
+          `/api/classes?limit=1000&offset=0&department=${encodeURIComponent(department.trim())}&catalog_year=2526`,
           { headers: { Authorization: `Bearer ${accessToken}` } }
         );
         if (cancelled) return;
