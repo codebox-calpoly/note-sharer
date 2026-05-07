@@ -866,7 +866,7 @@ export default function DashboardPage() {
                       <div className="browse-course-card-top">
                         <div className="browse-course-card-info">
                           <p className="browse-course-code">{course.code ?? course.name}</p>
-                          <p className="browse-course-title">{course.name}</p>
+                          <p className="browse-course-title">{course.name.replace(/\s*\(\d+(?:-\d+)?\s*units?\)\s*$/i, '')}</p>
                           {(() => {
                             const subline = getCourseSubline(course.code);
                             return subline ? <p className="browse-course-subline">{subline}</p> : null;
@@ -902,7 +902,7 @@ export default function DashboardPage() {
                   <div className="browse-course-card-top">
                     <div className="browse-course-card-info">
                       <p className="browse-course-code">{course.code ?? course.name}</p>
-                      <p className="browse-course-title">{course.name}</p>
+                      <p className="browse-course-title">{course.name.replace(/\s*\(\d+(?:-\d+)?\s*units?\)\s*$/i, '')}</p>
                       {(() => {
                         const subline = getCourseSubline(course.code);
                         return subline ? <p className="browse-course-subline">{subline}</p> : null;
