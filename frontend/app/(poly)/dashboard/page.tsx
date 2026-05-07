@@ -866,18 +866,12 @@ export default function DashboardPage() {
                       <div className="browse-course-card-top">
                         <div className="browse-course-card-info">
                           <p className="browse-course-code">{course.code ?? course.name}</p>
-                          {(() => {
-                            const subline = getCourseSubline(course.code);
-                            return subline ? <p className="browse-course-subline">{subline}</p> : null;
-                          })()}
+                          <p className="browse-course-title">{course.name}</p>
                         </div>
                         <span className="browse-course-badge browse-course-badge--enrolled">
                           Enrolled
                         </span>
                       </div>
-                      {course.description && (
-                        <p className="browse-course-description">{course.description}</p>
-                      )}
                       <div className="browse-course-meta">
                         {course.note_count} notes available
                       </div>
@@ -904,18 +898,12 @@ export default function DashboardPage() {
                   <div className="browse-course-card-top">
                     <div className="browse-course-card-info">
                       <p className="browse-course-code">{course.code ?? course.name}</p>
-                      {(() => {
-                        const subline = getCourseSubline(course.code);
-                        return subline ? <p className="browse-course-subline">{subline}</p> : null;
-                      })()}
+                      <p className="browse-course-title">{course.name}</p>
                     </div>
                     {course.department && (
                       <span className="browse-course-badge">{course.department}</span>
                     )}
                   </div>
-                  {course.description && (
-                    <p className="browse-course-description">{course.description}</p>
-                  )}
                   <div className="browse-course-meta">
                     {course.note_count} notes available
                   </div>
