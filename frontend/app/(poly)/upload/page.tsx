@@ -89,6 +89,8 @@ export default function UploadPage() {
   const [resourceType, setResourceType] = useState("");
   const [description, setDescription] = useState("");
   const [professor, setProfessor] = useState("");
+  const [isAddingProfessor, setIsAddingProfessor] = useState(false);
+  const [customProfessor, setCustomProfessor] = useState("");
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [credits, setCredits] = useState<number | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -884,19 +886,72 @@ export default function UploadPage() {
                 </div>
                 <div className="upload-field">
                   <label className="upload-label">Professor (optional)</label>
-                  <select
-                    className="upload-input"
-                    value={professor}
-                    onChange={(e) => setProfessor(e.target.value)}
-                  >
-                    <option value="">Select professor</option>
-                    {getFacultyByDepartment(department).map((f) => (
-                      <option key={f.name} value={f.name}>{f.name}</option>
-                    ))}
-                    {department && getFacultyByDepartment(department).length === 0 && (
-                      <option disabled>No professors found for this department</option>
-                    )}
-                  </select>
+                  {!isAddingProfessor ? (
+                    <>
+                      <select
+                        className="upload-input"
+                        value={professor}
+                        onChange={(e) => setProfessor(e.target.value)}
+                      >
+                        <option value="">Select professor</option>
+                        {getFacultyByDepartment(department).map((f) => (
+                          <option key={f.name} value={f.name}>{f.name}</option>
+                        ))}
+                        {department && getFacultyByDepartment(department).length === 0 && (
+                          <option disabled>No professors found for this department</option>
+                        )}
+                        <option value="__add__">+ Add new professor</option>
+                      </select>
+                      {professor === "__add__" && (
+                        <button
+                          type="button"
+                          className="upload-field-hint"
+                          onClick={() => {
+                            setIsAddingProfessor(true);
+                            setProfessor("");
+                          }}
+                          style={{ background: "none", border: "none", color: "var(--poly-sage)", cursor: "pointer", padding: 0, marginTop: "8px" }}
+                        >
+                          Click to add a new professor
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        className="upload-input"
+                        placeholder="Enter professor name"
+                        value={customProfessor}
+                        onChange={(e) => setCustomProfessor(e.target.value)}
+                      />
+                      <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                        <button
+                          type="button"
+                          className="upload-step-back"
+                          onClick={() => {
+                            setIsAddingProfessor(false);
+                            setCustomProfessor("");
+                          }}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className="upload-submit-btn"
+                          onClick={() => {
+                            if (customProfessor.trim()) {
+                              setProfessor(customProfessor.trim());
+                              setIsAddingProfessor(false);
+                              setCustomProfessor("");
+                            }
+                          }}
+                        >
+                          Add Professor
+                        </button>
+                      </div>
+                    </>
+                  )}
                   <p className="upload-field-hint">Helps students find notes by professor</p>
                 </div>
                 {submitError && (
