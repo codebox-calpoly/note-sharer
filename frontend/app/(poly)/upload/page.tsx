@@ -479,9 +479,15 @@ export default function UploadPage() {
 
   useEffect(() => {
     if (!isSuccess) return;
-    const t = window.setTimeout(() => router.push("/dashboard"), 1500);
+    const t = window.setTimeout(() => {
+      if (classId) {
+        router.push(`/dashboard/course/${classId}`);
+      } else {
+        router.push("/dashboard");
+      }
+    }, 1500);
     return () => window.clearTimeout(t);
-  }, [isSuccess, router]);
+  }, [isSuccess, router, classId]);
 
   useEffect(() => {
     return () => {

@@ -719,3 +719,53 @@
 [data-theme="dark"] .browse-filter-checkbox span {
   color: #e5e5e5;
 }
+
+/* Catalog year toggle */
+.browse-catalog-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--poly-surface-muted, #f3f4f6);
+  border: 1px solid var(--poly-border, #e5e7eb);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 16px;
+}
+
+.browse-catalog-toggle-btn {
+  padding: 6px 18px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--poly-text-secondary, #6b7280);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--theme-transition), color var(--theme-transition);
+}
+
+.browse-catalog-toggle-btn.active {
+  background: var(--poly-surface-raised, #ffffff);
+  color: var(--poly-text-primary, #111827);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.browse-catalog-toggle-btn:hover:not(.active) {
+  background: var(--poly-surface-raised, #ffffff);
+  color: var(--poly-text-primary, #111827);
+}
+
+[data-theme="dark"] .browse-catalog-toggle {
+  background: #2a2a2a;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .browse-catalog-toggle-btn.active {
+  background: #3a3a3a;
+  color: #e5e5e5;
+}
+
+[data-theme="dark"] .browse-catalog-toggle-btn:hover:not(.active) {
+  background: #333;
+  color: #e5e5e5;
+}
