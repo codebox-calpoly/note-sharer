@@ -25,6 +25,7 @@ type CourseOption = {
   term: string | null;
   year: number | null;
   note_count: number;
+  description: string | null;
 };
 
 type CourseRequestForm = {
@@ -874,6 +875,9 @@ export default function DashboardPage() {
                           Enrolled
                         </span>
                       </div>
+                      {course.description && (
+                        <p className="browse-course-description">{course.description}</p>
+                      )}
                       <div className="browse-course-meta">
                         {course.note_count} notes available
                       </div>
@@ -909,6 +913,9 @@ export default function DashboardPage() {
                       <span className="browse-course-badge">{course.department}</span>
                     )}
                   </div>
+                  {course.description && (
+                    <p className="browse-course-description">{course.description}</p>
+                  )}
                   <div className="browse-course-meta">
                     {course.note_count} notes available
                   </div>
