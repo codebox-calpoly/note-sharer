@@ -868,7 +868,16 @@ export default function DashboardPage() {
                           <p className="browse-course-code">{course.code ?? course.name}</p>
                           <p className="browse-course-title">{course.name.replace(/\s*\(\d+(?:-\d+)?\s*units?\)\s*$/i, '')}</p>
                           {(() => {
-                            const subline = getCourseSubline(course.code);
+                            // Try to get units from lookup table (2026-28 catalog)
+                            let subline = getCourseSubline(course.code);
+                            // If no lookup, try to extract from course name (2025-26 catalog)
+                            if (!subline) {
+                              const unitsMatch = course.name.match(/\((\d+(?:-\d+)?)\s*units?\)/i);
+                              if (unitsMatch) {
+                                const units = unitsMatch[1];
+                                subline = units === '1' ? '(1 unit)' : `(${units} units)`;
+                              }
+                            }
                             return subline ? <p className="browse-course-subline">{subline}</p> : null;
                           })()}
                         </div>
@@ -904,7 +913,16 @@ export default function DashboardPage() {
                       <p className="browse-course-code">{course.code ?? course.name}</p>
                       <p className="browse-course-title">{course.name.replace(/\s*\(\d+(?:-\d+)?\s*units?\)\s*$/i, '')}</p>
                       {(() => {
-                        const subline = getCourseSubline(course.code);
+                        // Try to get units from lookup table (2026-28 catalog)
+                        let subline = getCourseSubline(course.code);
+                        // If no lookup, try to extract from course name (2025-26 catalog)
+                        if (!subline) {
+                          const unitsMatch = course.name.match(/\((\d+(?:-\d+)?)\s*units?\)/i);
+                          if (unitsMatch) {
+                            const units = unitsMatch[1];
+                            subline = units === '1' ? '(1 unit)' : `(${units} units)`;
+                          }
+                        }
                         return subline ? <p className="browse-course-subline">{subline}</p> : null;
                       })()}
                     </div>
