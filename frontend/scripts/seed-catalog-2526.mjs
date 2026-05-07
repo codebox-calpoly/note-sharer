@@ -63,6 +63,7 @@ async function main() {
           department: c.department,
           course_number: courseNumber,
           title: c.name,
+          description: c.description ?? null,
           term,
           year,
           catalog_year: CATALOG_YEAR,
