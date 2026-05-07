@@ -17,6 +17,7 @@ type CourseRow = {
   course_number: number | null;
   term: string | null;
   year: number | null;
+  description: string | null;
 };
 
 type ClassResponse = {
@@ -27,6 +28,7 @@ type ClassResponse = {
   term: string | null;
   year: number | null;
   note_count: number;
+  description: string | null;
 };
 
 const PAGE_SIZE = 1000;
@@ -144,6 +146,7 @@ function buildClasses(rows: CourseRow[], countMap: Map<string, number>): ClassRe
       term: course.term ?? null,
       year: course.year ?? null,
       note_count: countMap.get(course.id) ?? 0,
+      description: course.description ?? null,
     };
   });
 }
@@ -241,7 +244,7 @@ export async function GET(request: Request) {
   if (classIdParam) {
     const { data: course, error } = await supabase
       .from("courses")
-      .select("id, title, department, course_number, term, year")
+      .select("id, title, department, course_number, term, year, description")
       .eq("id", classIdParam)
       .maybeSingle();
 
@@ -278,7 +281,7 @@ export async function GET(request: Request) {
     const matchedDepartmentCodeSet = new Set(aliasDepartmentCodes);
     let codeQuery = supabase
       .from("courses")
-      .select("id, title, department, course_number, term, year")
+      .select("id, title, department, course_number, term, year, description")
       .eq("catalog_year", catalogYear)
       .order("department", { ascending: true })
       .order("course_number", { ascending: true })
@@ -294,7 +297,7 @@ export async function GET(request: Request) {
       aliasDepartmentCodes.length > 0
         ? supabase
             .from("courses")
-            .select("id, title, department, course_number, term, year")
+            .select("id, title, department, course_number, term, year, description")
             .eq("catalog_year", catalogYear)
             .order("department", { ascending: true })
             .order("course_number", { ascending: true })
@@ -303,7 +306,7 @@ export async function GET(request: Request) {
         : Promise.resolve({ data: [] as CourseRow[], error: null }),
       supabase
         .from("courses")
-        .select("id, title, department, course_number, term, year")
+        .select("id, title, department, course_number, term, year, description")
         .eq("catalog_year", catalogYear)
         .order("title", { ascending: true })
         .ilike("title", `%${searchParam}%`)
@@ -376,7 +379,7 @@ export async function GET(request: Request) {
   if (paginated) {
     let query = supabase
       .from("courses")
-      .select("id, title, department, course_number, term, year")
+      .select("id, title, department, course_number, term, year, description")
       .eq("catalog_year", catalogYear)
       .order("title", { ascending: true })
       .range(offset, offset + limit - 1);
@@ -422,7 +425,7 @@ export async function GET(request: Request) {
   while (hasMore) {
     let query = supabase
       .from("courses")
-      .select("id, title, department, course_number, term, year")
+      .select("id, title, department, course_number, term, year, description")
       .eq("catalog_year", catalogYear)
       .order("title", { ascending: true })
       .range(currentOffset, currentOffset + PAGE_SIZE - 1);
