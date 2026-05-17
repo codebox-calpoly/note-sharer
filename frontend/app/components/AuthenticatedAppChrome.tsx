@@ -22,11 +22,16 @@ type ProfilePayload = {
   handle: string | null;
 };
 
-const APP_PATHS = ["/dashboard", "/upload", "/leaderboard"];
+type ModAccessPayload = {
+  allowed?: boolean;
+};
+
+const APP_PATHS = ["/dashboard", "/upload", "/leaderboard", "/moderator"];
 
 function getActiveNav(pathname: string) {
   if (pathname.startsWith("/upload")) return "upload" as const;
   if (pathname.startsWith("/leaderboard")) return "leaderboard" as const;
+  if (pathname.startsWith("/moderator")) return "moderator" as const;
   if (pathname.startsWith("/dashboard/profile-dashboard")) return "profile" as const;
   return "browse" as const;
 }
@@ -39,6 +44,7 @@ export function AuthenticatedAppChrome() {
   const [freeDownloads, setFreeDownloads] = useState<number | null>(null);
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [handle, setHandle] = useState<string | null>(null);
+  const [showModerator, setShowModerator] = useState(false);
 
   const isAppShellRoute = useMemo(
     () => APP_PATHS.some((prefix) => pathname.startsWith(prefix)),
@@ -76,9 +82,10 @@ export function AuthenticatedAppChrome() {
     };
 
     const loadShellData = async () => {
-      const [creditsRes, enrollmentRes, profileRes] = await Promise.all([
+      const [creditsRes, enrollmentRes, moderatorRes, profileRes] = await Promise.all([
         fetch("/api/credits", { headers: authHeaders }).catch(() => null),
         fetch("/api/me/enrollment", { headers: authHeaders }).catch(() => null),
+        fetch("/api/mod/access", { headers: authHeaders }).catch(() => null),
         supabase
           .from("profiles")
           .select("display_name, handle")
@@ -108,6 +115,13 @@ export function AuthenticatedAppChrome() {
           router.replace("/onboarding?mode=course-refresh");
           return;
         }
+      }
+
+      if (moderatorRes?.ok) {
+        const payload = (await moderatorRes.json()) as ModAccessPayload;
+        setShowModerator(Boolean(payload.allowed));
+      } else {
+        setShowModerator(false);
       }
 
       const profileData = profileRes.data as ProfilePayload | null;
@@ -154,6 +168,10 @@ export function AuthenticatedAppChrome() {
     );
 
   return (
-    <DesignNav active={getActiveNav(pathname)} rightSlot={rightSlot} />
+    <DesignNav
+      active={getActiveNav(pathname)}
+      rightSlot={rightSlot}
+      showModerator={showModerator}
+    />
   );
 }

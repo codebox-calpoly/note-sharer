@@ -7,6 +7,7 @@ import path from "node:path";
 import os from "node:os";
 import { extract } from "@/lib/textextractor";
 import { generateBlurredFirstPageBuffer } from "./helpers/preview";
+import { readBlockedAt } from "@/lib/moderation";
 
 /** Max characters of extracted text to store for search (avoids huge rows). */
 const MAX_EXTRACTED_TEXT_LENGTH = 100_000;
@@ -122,6 +123,24 @@ export async function POST(req: NextRequest) {
     userId = bypassProfileId!;
   } else {
     return NextResponse.json({ error: "Missing access token." }, { status: 401 });
+  }
+
+  try {
+    const blockedAt = await readBlockedAt(adminClient, userId);
+    if (blockedAt) {
+      return NextResponse.json(
+        { error: "This account is blocked from uploading notes." },
+        { status: 403 },
+      );
+    }
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: "Failed to verify account status.",
+        details: err instanceof Error ? err.message : "Unknown error",
+      },
+      { status: 500 },
+    );
   }
 
   const formData = await req.formData();
@@ -266,7 +285,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Auto-approve all notes (set to active status)
-  let status: "pending" | "active" = "active";
+  const status: "pending" | "active" = "active";
   // Note: Previously only admin/moderator/developer roles got auto-approved
   // Now all notes are auto-approved to give credits immediately
 

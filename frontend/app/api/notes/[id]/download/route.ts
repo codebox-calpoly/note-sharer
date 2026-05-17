@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabaseServerClient";
+import { readBlockedAt } from "@/lib/moderation";
 
 type ResourceDownloadRow = {
   id: string;
@@ -67,6 +68,24 @@ export async function GET(
   }
 
   const adminClient = createSupabaseClient(supabaseUrl, supabaseServiceRoleKey);
+
+  try {
+    const blockedAt = await readBlockedAt(adminClient, user.id);
+    if (blockedAt) {
+      return NextResponse.json(
+        { error: "This account is blocked from downloading notes." },
+        { status: 403 },
+      );
+    }
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: "Failed to verify account status.",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    );
+  }
 
   const { data: resource, error: resourceError } = await supabase
     .from("resources")

@@ -825,17 +825,26 @@ function CourseDetailPage() {
     setReportStatus("submitting");
     setReportMessage(null);
     try {
-      const res = await fetch("https://formspree.io/f/mwvbvqln", {
+      let token = accessToken;
+      if (!token) {
+        token = await refreshToken();
+      }
+      if (!token) {
+        setReportStatus("error");
+        setReportMessage("Sign in again to report this note.");
+        return;
+      }
+
+      const res = await fetch("/api/reports", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          noteId: selectedNote.id,
-          noteTitle: selectedNote.title,
-          classId: selectedNote.class_id ?? "",
-          reason: trimmedReason,
+          resourceId: selectedNote.id,
+          category: "other",
+          notes: trimmedReason,
         }),
       });
       if (!res.ok) {

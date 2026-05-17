@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabaseServerClient";
+import { readBlockedAt } from "@/lib/moderation";
 
 async function getAuthenticatedUser() {
   const headerStore = await headers();
@@ -58,6 +59,24 @@ export async function POST(
   if (!adminClient) {
     return NextResponse.json(
       { error: "Supabase environment variables are not configured." },
+      { status: 500 },
+    );
+  }
+
+  try {
+    const blockedAt = await readBlockedAt(adminClient, auth.user.id);
+    if (blockedAt) {
+      return NextResponse.json(
+        { error: "This account is blocked from bookmarking notes." },
+        { status: 403 },
+      );
+    }
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: "Failed to verify account status.",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 },
     );
   }

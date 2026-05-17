@@ -14,6 +14,7 @@ function makeRow(overrides: Partial<SearchableCourseRow>): SearchableCourseRow {
     course_number: 100,
     term: "Fall",
     year: 2026,
+    description: null,
     ...overrides,
   };
 }

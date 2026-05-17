@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "@/app/components/ThemeToggle";
 
-type NavLink = "browse" | "upload" | "leaderboard" | "profile";
+type NavLink = "browse" | "upload" | "leaderboard" | "moderator" | "profile";
 
 const linkClass = (active: boolean) =>
   `design-nav-link font-medium text-lg py-2 px-3 rounded-lg transition-colors duration-200 ${
@@ -16,9 +16,11 @@ const linkClass = (active: boolean) =>
 export function DesignNav({
   active,
   rightSlot,
+  showModerator = false,
 }: {
   active?: NavLink;
   rightSlot?: React.ReactNode;
+  showModerator?: boolean;
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -48,6 +50,11 @@ export function DesignNav({
           <Link href="/leaderboard" className={linkClass(active === "leaderboard")}>
             Leaderboard
           </Link>
+          {showModerator ? (
+            <Link href="/moderator" className={linkClass(active === "moderator")}>
+              Moderator
+            </Link>
+          ) : null}
           <Link href="/dashboard/profile-dashboard" className={linkClass(active === "profile")}>
             Profile
           </Link>
@@ -112,6 +119,15 @@ export function DesignNav({
           >
             Leaderboard
           </Link>
+          {showModerator ? (
+            <Link
+              href="/moderator"
+              className={`py-3 px-3 rounded-lg ${linkClass(active === "moderator")} w-full text-left`}
+              onClick={closeMobileMenu}
+            >
+              Moderator
+            </Link>
+          ) : null}
           <Link
             href="/dashboard/profile-dashboard"
             className={`py-3 px-3 rounded-lg ${linkClass(active === "profile")} w-full text-left`}

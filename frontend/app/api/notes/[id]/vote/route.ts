@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabaseServerClient";
+import { readBlockedAt } from "@/lib/moderation";
 
 export async function POST(
   _req: Request,
@@ -53,6 +54,34 @@ export async function POST(
     );
   }
 
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    return NextResponse.json(
+      { error: "Supabase environment variables are not configured." },
+      { status: 500 },
+    );
+  }
+
+  const adminClient = createSupabaseClient(supabaseUrl, supabaseServiceRoleKey);
+  try {
+    const blockedAt = await readBlockedAt(adminClient, user.id);
+    if (blockedAt) {
+      return NextResponse.json(
+        { error: "This account is blocked from voting on notes." },
+        { status: 403 },
+      );
+    }
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: "Failed to verify account status.",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    );
+  }
+
   const { error } = await supabase.from("votes").upsert(
     {
       resource_id: resourceId,
@@ -65,28 +94,23 @@ export async function POST(
   );
 
   if (error && (error.code === "42501" || error.message?.includes("policy"))) {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (supabaseUrl && supabaseServiceRoleKey) {
-      const adminClient = createSupabaseClient(supabaseUrl, supabaseServiceRoleKey);
-      const { data: downloadRow } = await adminClient
-        .from("resource_downloads")
-        .select("id")
-        .eq("resource_id", resourceId)
-        .eq("profile_id", user.id)
-        .maybeSingle();
-      if (downloadRow?.id) {
-        const { error: adminError } = await adminClient.from("votes").upsert(
-          {
-            resource_id: resourceId,
-            profile_id: user.id,
-            value,
-          },
-          { onConflict: "resource_id,profile_id" },
-        );
-        if (!adminError) {
-          return NextResponse.json({ ok: true, value }, { status: 200 });
-        }
+    const { data: downloadRow } = await adminClient
+      .from("resource_downloads")
+      .select("id")
+      .eq("resource_id", resourceId)
+      .eq("profile_id", user.id)
+      .maybeSingle();
+    if (downloadRow?.id) {
+      const { error: adminError } = await adminClient.from("votes").upsert(
+        {
+          resource_id: resourceId,
+          profile_id: user.id,
+          value,
+        },
+        { onConflict: "resource_id,profile_id" },
+      );
+      if (!adminError) {
+        return NextResponse.json({ ok: true, value }, { status: 200 });
       }
     }
     return NextResponse.json(
