@@ -264,10 +264,14 @@
 }
 
 .course-detail-note-star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--poly-border-strong);
   border-radius: 10px;
   width: 32px;
   height: 32px;
+  padding: 0;
   flex-shrink: 0;
   background: var(--poly-surface-raised);
   color: var(--poly-neutral-muted);
