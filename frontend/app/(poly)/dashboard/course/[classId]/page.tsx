@@ -1468,7 +1468,7 @@ function CourseDetailPage() {
       )}
 
       {/* Report modal */}
-      {isReportOpen && selectedNote && (
+      {isReportOpen && selectedNote && typeof document !== "undefined" && createPortal(
         <div
           className="report-modal-overlay"
           role="presentation"
@@ -1547,7 +1547,7 @@ function CourseDetailPage() {
             </form>
           </div>
         </div>
-      )}
+      , document.body)}
     </div>
   );
 }

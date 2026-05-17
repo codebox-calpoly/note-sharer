@@ -327,6 +327,7 @@
 
 .moderator-primary-btn,
 .moderator-secondary-btn,
+.moderator-dismiss-btn,
 .moderator-danger-btn {
   min-height: 40px;
   padding: 0 14px;
@@ -339,12 +340,14 @@
 
 .moderator-primary-btn:hover,
 .moderator-secondary-btn:hover,
+.moderator-dismiss-btn:hover,
 .moderator-danger-btn:hover {
   transform: translateY(-1px);
 }
 
 .moderator-primary-btn:disabled,
 .moderator-secondary-btn:disabled,
+.moderator-dismiss-btn:disabled,
 .moderator-danger-btn:disabled {
   cursor: not-allowed;
   opacity: 0.6;
@@ -361,6 +364,13 @@
   background: var(--poly-surface-raised);
   color: var(--poly-text-primary);
   border-color: var(--poly-border-strong);
+}
+
+.moderator-dismiss-btn {
+  background: var(--poly-sage);
+  color: #ffffff;
+  border-color: color-mix(in srgb, var(--poly-sage) 80%, #1f2937);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #ffffff 18%, transparent);
 }
 
 .moderator-secondary-btn--compact {

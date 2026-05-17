@@ -184,37 +184,48 @@ export default function ModeratorPage() {
       }
 
       setLoadState({ loading: true, error: null, message: null });
-      let res = await fetch("/api/mod/dashboard", {
-        headers: { Authorization: `Bearer ${currentToken}` },
-        cache: "no-store",
-      });
+      try {
+        let res = await fetch("/api/mod/dashboard", {
+          headers: { Authorization: `Bearer ${currentToken}` },
+          cache: "no-store",
+        });
 
-      if (res.status === 401) {
-        const nextToken = await refreshToken();
-        if (nextToken) {
-          res = await fetch("/api/mod/dashboard", {
-            headers: { Authorization: `Bearer ${nextToken}` },
-            cache: "no-store",
-          });
+        if (res.status === 401) {
+          const nextToken = await refreshToken();
+          if (nextToken) {
+            res = await fetch("/api/mod/dashboard", {
+              headers: { Authorization: `Bearer ${nextToken}` },
+              cache: "no-store",
+            });
+          }
         }
-      }
 
-      const payload = (await res.json().catch(() => ({}))) as ModeratorPayload & {
-        error?: string;
-      };
+        const payload = (await res.json().catch(() => ({}))) as ModeratorPayload & {
+          error?: string;
+        };
 
-      if (!res.ok) {
-        setData(null);
+        if (!res.ok) {
+          setData(null);
+          setLoadState({
+            loading: false,
+            error: payload.error ?? "Failed to load moderator dashboard.",
+            message: null,
+          });
+          return;
+        }
+
+        setData(payload);
+        setLoadState({ loading: false, error: null, message: null });
+      } catch (error) {
         setLoadState({
           loading: false,
-          error: payload.error ?? "Failed to load moderator dashboard.",
+          error:
+            error instanceof Error
+              ? `Failed to refresh moderator dashboard: ${error.message}`
+              : "Failed to refresh moderator dashboard.",
           message: null,
         });
-        return;
       }
-
-      setData(payload);
-      setLoadState({ loading: false, error: null, message: null });
     },
     [refreshToken],
   );
@@ -247,23 +258,31 @@ export default function ModeratorPage() {
   ) => {
     if (!token) return;
     setActionState({ loading: true, error: null, message: null });
-    const res = await fetch(`/api/mod/resources/${resourceId}/action`, {
-      method: "POST",
-      headers: authHeaders,
-      body: JSON.stringify({
-        action,
-        notes: selectedResourceNotes[resourceId] ?? "",
-        reportStatus,
-      }),
-    });
-    const payload = (await res.json().catch(() => ({}))) as { error?: string };
-    if (!res.ok) {
-      setActionState({ loading: false, error: payload.error ?? "Action failed.", message: null });
-      return;
+    try {
+      const res = await fetch(`/api/mod/resources/${resourceId}/action`, {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify({
+          action,
+          notes: selectedResourceNotes[resourceId] ?? "",
+          reportStatus,
+        }),
+      });
+      const payload = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        setActionState({ loading: false, error: payload.error ?? "Action failed.", message: null });
+        return;
+      }
+      setActionState({ loading: false, error: null, message: "Moderation action saved." });
+      setSelectedResourceNotes((prev) => ({ ...prev, [resourceId]: "" }));
+      await reloadAfterAction();
+    } catch (error) {
+      setActionState({
+        loading: false,
+        error: error instanceof Error ? `Action failed: ${error.message}` : "Action failed.",
+        message: null,
+      });
     }
-    setActionState({ loading: false, error: null, message: "Moderation action saved." });
-    setSelectedResourceNotes((prev) => ({ ...prev, [resourceId]: "" }));
-    await reloadAfterAction();
   };
 
   const submitBlock = async (event: FormEvent<HTMLFormElement>) => {
@@ -702,7 +721,7 @@ export default function ModeratorPage() {
                         <div className="moderator-actions">
                           <button
                             type="button"
-                            className="moderator-primary-btn"
+                            className="moderator-dismiss-btn"
                             onClick={() =>
                               void runResourceAction(report.resource_id, "restore", "rejected")
                             }
@@ -739,7 +758,7 @@ export default function ModeratorPage() {
                                 setBlockReason(`Report ${report.id}: ${report.category}`);
                               }}
                             >
-                              Prep Block
+                              Block user
                             </button>
                           ) : null}
                         </div>
