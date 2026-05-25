@@ -159,7 +159,7 @@ export async function GET(req: Request) {
   if (searchQuery && searchQuery.trim()) {
     const searchTerm = `%${searchQuery.trim()}%`;
     query = query.or(
-      `title.ilike.${searchTerm},description.ilike.${searchTerm},extracted_text.ilike.${searchTerm}`
+      `title.ilike.${searchTerm},description.ilike.${searchTerm}`
     );
   }
 
