@@ -1,1 +1,0 @@
-export { HowItWorksSection } from "./HowItWorksSection";
