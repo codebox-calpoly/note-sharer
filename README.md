@@ -1,81 +1,86 @@
-# Note Sharer
+# Poly Pages
 
-Note Sharer is a campus‑specific marketplace where students upload high‑quality notes, Quizlet sets, syllabi, and other course resources. Contributors earn credits from uploads and upvotes, then spend those credits to access others' materials—solving the free‑rider problem and reducing reliance on paywalled platforms like Chegg or Brainly.
+Poly Pages is a note-sharing platform for Cal Poly SLO students. Students upload class notes, earn credits when their work is approved, and spend credits to unlock useful study material from other students.
 
-## Overview
+[polypages.dev](https://www.polypages.dev/)
 
-### Purpose
+![Poly Pages landing page](docs/assets/readme/landing-desktop.png)
 
-Students struggle to find consolidated, high‑quality, course‑specific study resources. Existing solutions (group chats, random Drive folders, or paywalled sites) are fragmented, low‑signal, and don't reward contributors—creating a free‑rider dynamic and uneven quality. A campus‑scoped platform with aligned incentives is needed to increase the supply of high‑quality materials without charging cash. Finally, this application will reduce the unfair advantage held by members of some Greek life organizations that share study materials exclusively among their members.
+## What It Does
 
-### Team
+- Uses `@calpoly.edu` email verification to keep the community campus-scoped.
+- Lets students browse courses, upload PDFs, preview resources, bookmark notes, and download with credits.
+- Rewards contribution through upload credits, voting, and leaderboard activity.
+- Gives moderators a review surface for resources, reports, users, and promotions.
 
-- [First Last](https://www.linkedin.com/) - Project Manager
-- [Joshua Panicker](https://www.linkedin.com/in/joshua-panicker-32610a2b0) - Tech Lead
-- [Jonah Chan](https://www.linkedin.com/in/jonah-chan) - Tech Lead
-- [Isaiah Cortez](https://www.linkedin.com/in/isaiah-cortez9/) - Designer
-- [Noah Gullo](https://www.linkedin.com/in/noah-gullo) - Developer
-- [Victor Xie](https://www.linkedin.com/in/victor-xie-767626301/) - Developer
-- [Moe Aung](https://www.linkedin.com/) - Developer
-- [Wieland Rodriguez](https://www.linkedin.com/in/wieland-rodriguez) - Developer
-- [Emma Walker](https://www.linkedin.com/) - Developer
+## CodeBox
 
-## Getting Started
+Poly Pages was built through CodeBox, a Cal Poly student software club. CodeBox teams work like small product teams: PMs, designers, tech leads, and developers build real apps together over the year.
 
-The fastest way to get up and running is the setup script. It checks your local
-dependencies, verifies environment variables, installs packages, and then starts
-the dev server only when everything looks good.
+## Tech Stack
 
-```bash
-npm run setup
-```
+- Next.js 16, React 19, TypeScript
+- Supabase Auth, Postgres, and Storage
+- Resend for email
+- Jest for focused unit tests
+- ESLint and Prettier for code quality
 
-### What the setup script checks
-- Node.js is installed and prints the version.
-- Supabase CLI is installed (or it will tell you how to install it).
-- Required environment variables exist in `frontend/.env.local`.
-- Frontend dependencies are installed.
+## Team
 
-### Supabase CLI install (Windows)
-Run this in PowerShell:
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-iwr -useb get.scoop.sh | iex
-scoop install supabase
-```
-
-### Supabase CLI install (macOS)
-
-```bash
-brew install supabase/tap/supabase
-```
-
-### Required environment variables
-Create `frontend/.env.local` and include:
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
-
-### Start the dev server
-If you want to skip the full checks and just start after installing updates:
-
-```bash
-npm run start
-```
-
-### Auth flow
-Open `/auth`, enter your `@calpoly.edu` email, and use the one-time code to log in.
-After that, you will be routed to onboarding or the dashboard.
-
-## Documentation
-
-- Product requirements: `docs/PRD.md`
-- Tech stack: `docs/Note_Sharer_Tech_Stack.md`
-- Project charter: `docs/project-charter.md`
-- Contributing: `docs/contributing.md`
-- PR review guide: `docs/PR_REVIEW_GUIDE.md`
+| Name | Role | Links |
+| --- | --- | --- |
+| Anthony Orozco | Product Manager | - |
+| Joshua Panicker | Tech Lead | [LinkedIn](https://www.linkedin.com/in/joshua-panicker-32610a2b0), [GitHub](https://github.com/joshuapanicker) |
+| Jonah Chan | Tech Lead | [LinkedIn](https://www.linkedin.com/in/jonah-chan), [GitHub](https://github.com/p1an0guy) |
+| Isaiah Cortez | Designer | [LinkedIn](https://www.linkedin.com/in/isaiah-cortez9/), [GitHub](https://github.com/isaiah600) |
+| Noah Gullo | Developer | [LinkedIn](https://www.linkedin.com/in/noah-gullo) |
+| Victor Xie | Developer | [LinkedIn](https://www.linkedin.com/in/victor-xie-767626301/) |
+| Carter Lim | Developer | - |
+| Emma Walker | Developer | - |
+| Moe Aung | Developer | - |
+| Wieland Rodriguez | Developer | [LinkedIn](https://www.linkedin.com/in/wieland-rodriguez) |
 
 ## Contributing
 
-Visit [contributing.md](docs/contributing.md) on info for how to contribute to this repo.
+Install:
+
+- Node.js 18+
+- npm
+- Supabase CLI if you are working with the database
+
+Ask a lead for the values needed in `frontend/.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+```
+
+Clone and run:
+
+```bash
+git clone https://github.com/codebox-calpoly/NoteSharer.git
+cd NoteSharer
+npm run setup
+```
+
+Use branches and PRs:
+
+```bash
+git checkout main
+git pull
+git checkout -b short-clear-branch-name
+npm run gitcheck
+```
+
+Open pull requests into `main`. Keep PRs focused, include screenshots for UI changes, and call out database or environment changes clearly.
+
+## Docs
+
+- [Architecture](docs/architecture.md): how the app is organized.
+- [Product Goals](docs/product-goals.md): users, core flows, and product guardrails.
+- [Brand](docs/brand.md): product voice, visual direction, and naming.
+- [Code Style](docs/code-style.md): project coding conventions.
+- [Testing](docs/testing.md): current checks and test expectations.
+- [Agent Guide](AGENTS.md): working rules for AI collaborators.
+- [Supabase Setup](supabase/README.md): database setup, migrations, and storage buckets.
