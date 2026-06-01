@@ -3,4 +3,6 @@ node_modules
 out
 .supabase
 coverage
+build
+.vercel
 **/package-lock.json

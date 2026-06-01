@@ -7,10 +7,6 @@
     "lint": "npm --prefix frontend run lint",
     "test": "npm --prefix frontend run test",
     "format": "npm --prefix frontend run format",
-    "gitcheck": "node setup.mjs --skip-supabase --skip-env --no-start && npm --prefix frontend run lint && npm --prefix frontend run test"
-  },
-  "dependencies": {
-    "pdf2pic": "^3.2.0",
-    "sharp": "^0.34.5"
+    "gitcheck": "npm --prefix frontend run lint && npm --prefix frontend run test"
   }
 }

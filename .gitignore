@@ -1,20 +1,31 @@
-# Environment & secrets
+# Environment and secrets
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 .envrc
 
-# Supabase local state
-.supabase
+# Dependencies
+node_modules/
+/package-lock.json
 
-# Node/Vercel build output placeholders (anticipating Next.js stack)
-.next
-out
-node_modules
-coverage
-.vercel
+# Build and tool output
+.next/
+out/
+build/
+coverage/
+.vercel/
+.supabase/
+*.tsbuildinfo
+next-env.d.ts
 
-# OS/Editor cruft
-.DS_Store
-*.swp
+# Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
