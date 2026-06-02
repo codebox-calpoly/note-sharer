@@ -1,6 +1,8 @@
 # Poly Pages
 
-Poly Pages is a note-sharing platform for Cal Poly SLO students. Students upload class notes, earn credits when their work is approved, and spend credits to unlock useful study material from other students.
+Poly Pages is a full-stack note-sharing platform for Cal Poly SLO students. Students upload class notes, earn credits when their work is approved, and spend credits to unlock useful study material from other students.
+
+The project combines a searchable Cal Poly course catalog, `@calpoly.edu` email verification, PDF uploads, private Supabase storage, generated previews, a credit economy, voting, bookmarks, leaderboard stats, and moderator tools. It is built like a real campus product: useful to students, scoped to one school, and designed with academic-integrity guardrails.
 
 [polypages.dev](https://www.polypages.dev/)
 
@@ -10,8 +12,9 @@ Poly Pages is a note-sharing platform for Cal Poly SLO students. Students upload
 
 - Uses `@calpoly.edu` email verification to keep the community campus-scoped.
 - Lets students browse courses, upload PDFs, preview resources, bookmark notes, and download with credits.
-- Rewards contribution through upload credits, voting, and leaderboard activity.
+- Rewards contribution through upload credits, voting, profile stats, and leaderboard activity.
 - Gives moderators a review surface for resources, reports, users, and promotions.
+- Keeps original files private and serves access through app-controlled signed URLs.
 
 ## CodeBox
 
@@ -33,12 +36,11 @@ Poly Pages was built through CodeBox, a Cal Poly student software club. CodeBox 
 | Joshua Panicker | Tech Lead | [LinkedIn](https://www.linkedin.com/in/joshua-panicker-32610a2b0), [GitHub](https://github.com/joshuapanicker) |
 | Jonah Chan | Tech Lead | [LinkedIn](https://www.linkedin.com/in/jonah-chan), [GitHub](https://github.com/p1an0guy) |
 | Isaiah Cortez | Designer | [LinkedIn](https://www.linkedin.com/in/isaiah-cortez9/), [GitHub](https://github.com/isaiah600) |
-| Noah Gullo | Developer | [LinkedIn](https://www.linkedin.com/in/noah-gullo) |
-| Victor Xie | Developer | [LinkedIn](https://www.linkedin.com/in/victor-xie-767626301/) |
-| Carter Lim | Developer | - |
-| Emma Walker | Developer | - |
-| Moe Aung | Developer | - |
-| Wieland Rodriguez | Developer | [LinkedIn](https://www.linkedin.com/in/wieland-rodriguez) |
+| Noah Gullo | Developer | [LinkedIn](https://www.linkedin.com/in/noah-gullo), [GitHub](https://github.com/Noah-Gullo) |
+| Victor Xie | Developer | [LinkedIn](https://www.linkedin.com/in/victor-xie-767626301/), [GitHub](https://github.com/XieVic978), [GitHub alt](https://github.com/xievic9780) |
+| Carter Lim | Developer | [GitHub](https://github.com/carter-a-lim) |
+| Emma Walker | Developer | [GitHub](https://github.com/ema-png) |
+| Wieland Rodriguez | Developer | [LinkedIn](https://www.linkedin.com/in/wieland-rodriguez), [GitHub](https://github.com/wielandrod) |
 
 ## Contributing
 
