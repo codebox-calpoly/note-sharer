@@ -120,7 +120,7 @@ export default function UploadPage() {
   useEffect(() => {
     (async () => {
       const { session, error } = await getSessionWithRecovery(supabase);
-      if (error) console.log("UploadPage getSession error:", error);
+      if (error) console.error("UploadPage getSession error:", error);
       if (!session) {
         router.replace("/auth");
         return;

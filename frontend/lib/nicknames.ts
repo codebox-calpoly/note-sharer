@@ -89,8 +89,7 @@ export async function generateUniqueNickname(
       return nickname;
     }
 
-    // If not unique, try again (this is rare but possible)
-    console.log(`Nickname collision: ${nickname}, retrying... (attempt ${attempt + 1}/${maxAttempts})`);
+    // If not unique, try again. Collisions are rare but possible.
   }
 
   // If we've exhausted all attempts, throw an error

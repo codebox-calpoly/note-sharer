@@ -40,6 +40,7 @@ Schema changes are tracked in `supabase/migrations`. Use migrations for database
 - `frontend/app/components` holds shared app UI.
 - Route-specific CSS stays beside its route when a page has enough styling to deserve its own file.
 - `frontend/__tests__` holds focused Jest tests for helper behavior.
+- Browser PDF viewing uses `react-pdf`; upload preview generation uses `pdf2pic` plus `sharp`.
 
 ## Main Product Areas
 

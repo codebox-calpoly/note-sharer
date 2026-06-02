@@ -93,9 +93,6 @@ export async function POST(req: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const bypassEnabled =
-    process.env.NODE_ENV !== "production" && process.env.NEXT_PUBLIC_UPLOAD_BYPASS === "true";
-  const bypassProfileId = process.env.UPLOAD_BYPASS_PROFILE_ID;
 
   if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceRoleKey) {
     return NextResponse.json(
@@ -105,7 +102,6 @@ export async function POST(req: NextRequest) {
   }
 
   const accessToken = extractAccessToken(req);
-  const usingBypass = !accessToken && bypassEnabled && bypassProfileId;
   const adminClient = createClient(supabaseUrl, supabaseServiceRoleKey);
 
   let userId: string | null = null;
@@ -115,8 +111,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid or expired session." }, { status: 401 });
     }
     userId = authData.user.id;
-  } else if (usingBypass) {
-    userId = bypassProfileId!;
   } else {
     return NextResponse.json({ error: "Missing access token." }, { status: 401 });
   }

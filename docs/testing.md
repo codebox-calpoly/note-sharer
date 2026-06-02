@@ -4,9 +4,11 @@ The normal check before a PR is:
 
 ```bash
 npm run gitcheck
+npm --prefix frontend audit
 ```
 
-That runs frontend lint and Jest tests from the root command hub.
+`gitcheck` runs frontend lint and Jest tests from the root command hub. `npm audit`
+should stay at 0 known vulnerabilities.
 
 ## Current Coverage
 
@@ -51,3 +53,9 @@ npm --prefix frontend run build
 ```
 
 This catches route, TypeScript, and production rendering issues that lint and Jest do not cover.
+
+## Dependency Notes
+
+- PDF previews in the browser use `react-pdf`.
+- Server-side upload previews use `pdf2pic` and `sharp` to generate a blurred first-page image.
+- `pdf2pic` depends on the deprecated `gm` package. Keep it only while the current upload preview behavior is needed; replace that preview renderer before expanding the upload pipeline.
