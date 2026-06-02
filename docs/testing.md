@@ -42,6 +42,12 @@ For UI or flow changes, also check the app locally:
 5. Upload a PDF if the change touches uploads.
 6. Check mobile width for changed screens.
 
-## Known Gap
+## Production Build
 
-`next build` currently fails on a `pdf2pic` TypeScript overload in `frontend/app/api/upload/helpers/preview.ts`. The required PR gate is `npm run gitcheck` until that build issue is fixed.
+When env vars are available, also run:
+
+```bash
+npm --prefix frontend run build
+```
+
+This catches route, TypeScript, and production rendering issues that lint and Jest do not cover.
