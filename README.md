@@ -46,9 +46,9 @@ Poly Pages was built through CodeBox, a Cal Poly student software club. CodeBox 
 
 Install:
 
-- Node.js 18+
+- Node.js 20.9+
 - npm
-- Supabase CLI if you are working with the database
+- Supabase CLI for `npm run setup`
 
 Ask a lead for the values needed in `frontend/.env.local`:
 
@@ -65,6 +65,8 @@ git clone https://github.com/codebox-calpoly/NoteSharer.git
 cd NoteSharer
 npm run setup
 ```
+
+For frontend-only work when Supabase CLI is not installed, use `npm run start`.
 
 Use branches and PRs:
 

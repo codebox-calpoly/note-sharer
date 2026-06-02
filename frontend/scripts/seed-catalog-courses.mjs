@@ -38,10 +38,14 @@ function loadCatalog() {
   let catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
   const codesInCatalog = new Set(catalog.map((c) => c.code));
 
-  // Merge in any course from course-titles.json that is not in the placeholder catalog.
+  // Use generated catalog titles as the source of truth when a code exists there.
   const titlesPath = path.join(__dirname, "../data/catalog/course-titles.json");
   if (fs.existsSync(titlesPath)) {
     const titles = JSON.parse(fs.readFileSync(titlesPath, "utf8"));
+    catalog = catalog.map((course) => ({
+      ...course,
+      name: titles[course.code] ?? course.name,
+    }));
     Object.entries(titles).forEach(([code, title]) => {
       if (codesInCatalog.has(code)) continue;
       const department = code.split(/\s+/)[0] || "";
