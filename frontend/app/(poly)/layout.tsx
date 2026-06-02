@@ -1,4 +1,5 @@
 import { PolyShell } from "./PolyShell";
+import "./poly-shell.css";
 
 export default function PolyLayout({
   children,

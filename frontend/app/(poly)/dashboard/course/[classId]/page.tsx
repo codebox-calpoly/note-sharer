@@ -22,6 +22,7 @@ import { getCourseSubline } from "../../course-name-utils";
 import "../../dashboard.css";
 import "../../browse.css";
 import "../../course-detail.css";
+import "./note-modal.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 

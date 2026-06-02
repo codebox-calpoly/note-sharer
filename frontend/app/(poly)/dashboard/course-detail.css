@@ -1,4 +1,4 @@
-/* Course detail page – course-detail-page-ui style (Poly) */
+/* Course detail page - course-detail-page-ui style (Poly) */
 .course-detail-page {
   min-height: 100vh;
   background: var(--poly-page-bg);
@@ -27,31 +27,6 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-
-.course-detail-header-top {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.course-detail-code {
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 32px;
-  color: var(--poly-neutral-dark);
-}
-
-.course-detail-term-badge {
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: var(--poly-accent);
-  color: var(--poly-neutral-dark);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
 }
 
 .course-detail-title {
@@ -193,7 +168,7 @@
   cursor: not-allowed;
 }
 
-/* Note cards grid – no download on card */
+/* Note cards grid - no download on card */
 .course-detail-note-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -419,7 +394,7 @@
   max-width: 100%;
 }
 
-/* Download button in modal – primary CTA, matches app design */
+/* Download button in modal - primary CTA, matches app design */
 .note-modal-download-btn {
   border-radius: 8px;
   padding: 0.5rem 1rem;
@@ -440,4 +415,81 @@
 .note-modal-download-btn:disabled {
   opacity: 0.65;
   cursor: not-allowed;
+}
+
+[data-theme="dark"] .course-detail-note-title,
+[data-theme="dark"] .profile-page__note-card {
+  color: #e5e5e5 !important;
+}
+
+[data-theme="dark"] .course-detail-note-star {
+  background: #1f2937;
+  border-color: rgba(250, 204, 21, 0.45);
+  color: #facc15;
+}
+
+[data-theme="dark"] .course-detail-note-star:hover:not(:disabled) {
+  background: rgba(250, 204, 21, 0.18);
+  border-color: rgba(250, 204, 21, 0.72);
+  color: #fef08a;
+}
+
+[data-theme="dark"] .course-detail-note-star.is-active {
+  background: rgba(250, 204, 21, 0.24);
+  border-color: rgba(250, 204, 21, 0.72);
+  color: #fef08a;
+}
+
+[data-theme="dark"] .course-detail-note-star:disabled {
+  opacity: 0.55;
+}
+
+/* Course detail: no pure white - use dark gray cards/tabs/filters with contrast */
+[data-theme="dark"] .course-detail-note-card {
+  background: #2d2d2d !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+[data-theme="dark"] .course-detail-note-meta .course-detail-note-credits {
+  color: #b0b0b0 !important;
+}
+[data-theme="dark"] .course-detail-note-meta {
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+}
+[data-theme="dark"] .course-detail-filter-label,
+[data-theme="dark"] .course-detail-notes-count {
+  color: #b0b0b0 !important;
+}
+[data-theme="dark"] .course-detail-filter-btn {
+  background: #2d2d2d !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #e5e5e5 !important;
+}
+[data-theme="dark"] .course-detail-filter-btn:hover {
+  background: rgba(109, 190, 139, 0.2) !important;
+  border-color: #6dbe8b !important;
+  color: #6dbe8b !important;
+}
+[data-theme="dark"] .course-detail-filter-btn.active {
+  background: rgba(109, 190, 139, 0.25) !important;
+  border-color: #6dbe8b !important;
+  color: #6dbe8b !important;
+}
+[data-theme="dark"] .course-detail-search-input {
+  background: #2d2d2d !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #e5e5e5 !important;
+}
+[data-theme="dark"] .course-detail-search-input::placeholder {
+  color: #888 !important;
+}
+
+[data-theme="dark"] .course-detail-load-more {
+  background: #2d2d2d !important;
+  border-color: #6dbe8b !important;
+  color: #6dbe8b !important;
+}
+
+[data-theme="dark"] .course-detail-load-more:hover {
+  background: rgba(109, 190, 139, 0.2) !important;
+  color: #6dbe8b !important;
 }

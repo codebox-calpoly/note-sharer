@@ -16,6 +16,7 @@ import { useRegisterNavRight } from "@/app/(poly)/PolyShell";
 import ProfileIcons from "./profile-icon";
 import "./dashboard.css";
 import "./browse.css";
+import "../course-request.css";
 
 type CourseOption = {
   id: string;

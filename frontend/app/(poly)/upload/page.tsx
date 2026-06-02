@@ -14,6 +14,7 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import { CALPOLY_PLACEHOLDER_COURSES } from "@/app/(poly)/dashboard/calpoly-catalog";
 import "./upload.css";
+import "../course-request.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 

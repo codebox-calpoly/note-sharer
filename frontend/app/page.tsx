@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSessionWithRecovery, supabase } from "@/lib/supabaseClient";
+import "./page.css";
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLElement>(null);

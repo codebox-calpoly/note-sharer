@@ -40,13 +40,6 @@
   margin: 0;
 }
 
-.profile-dashboard__subtitle {
-  max-width: 520px;
-  margin: 10px 0 0;
-  color: var(--profile-muted);
-  font-size: 1rem;
-}
-
 .profile-dashboard__back {
   display: inline-flex;
   align-items: center;

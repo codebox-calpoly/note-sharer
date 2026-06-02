@@ -1,0 +1,114 @@
+:root {
+ --theme-transition: 0.4s ease;
+ --poly-primary: #bf4408;
+ --poly-primary-hover: #e65103;
+ --poly-accent: #f9c784;
+ --poly-sage: #6dbe8b;
+
+ --poly-page-bg: #faf7f2;
+ --poly-page-bg-accent: #f3ede4;
+ --poly-surface: rgba(255, 255, 255, 0.9);
+ --poly-surface-raised: #ffffff;
+ --poly-surface-strong: rgba(255, 255, 255, 0.98);
+ --poly-surface-muted: #f5efe7;
+ --poly-surface-overlay: rgba(22, 22, 22, 0.45);
+ --poly-text-primary: #2e2e2e;
+ --poly-text-secondary: #5b6573;
+ --poly-text-tertiary: #7a8594;
+ --poly-border: rgba(84, 96, 109, 0.12);
+ --poly-border-strong: rgba(84, 96, 109, 0.18);
+ --poly-border-subtle: rgba(84, 96, 109, 0.07);
+ --poly-sage-soft: rgba(109, 190, 139, 0.12);
+ --poly-success: #2f855a;
+ --poly-success-soft: rgba(109, 190, 139, 0.16);
+ --poly-danger: #b34b3f;
+ --poly-danger-soft: rgba(179, 75, 63, 0.12);
+ --poly-warning: #d97706;
+ --poly-warning-soft: rgba(249, 199, 132, 0.2);
+ --poly-shadow-soft: 0 10px 30px rgba(33, 43, 54, 0.08);
+ --poly-shadow-strong: 0 22px 48px rgba(33, 43, 54, 0.16);
+ --poly-focus-ring: 0 0 0 3px rgba(109, 190, 139, 0.2);
+ --poly-bg-page: var(--poly-page-bg);
+ --poly-neutral-dark: var(--poly-text-primary);
+ --poly-neutral-muted: var(--poly-text-secondary);
+ --background: var(--poly-page-bg);
+ --foreground: var(--poly-text-primary);
+ --poly-radius-card: 14px;
+ --poly-radius-input: 12px;
+ --poly-radius-button: 999px;
+ --poly-space-unit: 8px;
+ --poly-space-lg: 24px;
+ --poly-space-xl: 32px;
+ --poly-space-3xl: 48px;
+ --poly-space-4xl: 64px;
+ --variable-collection-warm-apricot: rgba(249, 199, 132, 1);
+}
+
+/* Smooth theme transition - applied to elements that change with theme */
+html {
+  transition: background-color var(--theme-transition), color var(--theme-transition);
+}
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color var(--theme-transition), color var(--theme-transition);
+}
+/* Broad theme transition so nav, cards, sections, text animate when toggling light/dark */
+.page-bg,
+.design-nav-header,
+header,
+[class*="browse-"],
+[class*="profile-page"],
+[class*="course-detail"],
+[class*="upload-"],
+[class*="poly-"],
+article,
+button,
+a,
+input,
+textarea,
+select {
+  transition: background-color var(--theme-transition), color var(--theme-transition), border-color var(--theme-transition), box-shadow var(--theme-transition);
+}
+
+/* Dark theme - applied when data-theme="dark" on <html> */
+[data-theme="dark"] {
+  --poly-page-bg: #171715;
+  --poly-page-bg-accent: #1f201d;
+  --poly-surface: rgba(33, 33, 31, 0.88);
+  --poly-surface-raised: #242422;
+  --poly-surface-strong: rgba(38, 38, 36, 0.96);
+  --poly-surface-muted: #1d1d1a;
+  --poly-surface-overlay: rgba(0, 0, 0, 0.64);
+  --poly-text-primary: #f5f2ee;
+  --poly-text-secondary: #c9d1dc;
+  --poly-text-tertiary: #9eabb8;
+  --poly-border: rgba(255, 255, 255, 0.1);
+  --poly-border-strong: rgba(255, 255, 255, 0.16);
+  --poly-border-subtle: rgba(255, 255, 255, 0.06);
+  --poly-sage-soft: rgba(109, 190, 139, 0.2);
+  --poly-success: #7fd8a1;
+  --poly-success-soft: rgba(109, 190, 139, 0.2);
+  --poly-danger: #ee9f95;
+  --poly-danger-soft: rgba(179, 75, 63, 0.22);
+  --poly-warning: #f2b562;
+  --poly-warning-soft: rgba(249, 199, 132, 0.16);
+  --poly-shadow-soft: 0 14px 34px rgba(0, 0, 0, 0.24);
+  --poly-shadow-strong: 0 24px 56px rgba(0, 0, 0, 0.36);
+  --poly-focus-ring: 0 0 0 3px rgba(109, 190, 139, 0.24);
+  --poly-bg-page: var(--poly-page-bg);
+  --poly-neutral-dark: var(--poly-text-primary);
+  --poly-neutral-muted: var(--poly-text-secondary);
+  --background: var(--poly-page-bg);
+  --foreground: var(--poly-text-primary);
+  --variable-collection-warm-apricot: rgba(249, 199, 132, 0.94);
+}
+
+[data-theme="dark"] body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.page-bg {
+  background-color: var(--poly-bg-page);
+}
