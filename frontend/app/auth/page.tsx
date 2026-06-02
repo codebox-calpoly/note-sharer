@@ -22,7 +22,7 @@ function AuthPageContent() {
       const { session, error: sessionError } = await getSessionWithRecovery(supabase);
       if (sessionError) console.error("Failed to fetch session", sessionError);
       if (session) {
-        router.replace(redirectTo.startsWith("/") ? redirectTo : "/auth/callback");
+        router.replace("/dashboard");
         return;
       }
       setChecking(false);

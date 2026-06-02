@@ -11,9 +11,9 @@ import {
   normalizeCourseSearchQuery,
   sortCoursesBySearchOrder,
 } from "@/lib/course-search";
-import { getCourseSubline } from "./course-name-utils";
+import { getCourseSubline } from "@/lib/catalog/calpoly-catalog";
 import { useRegisterNavRight } from "@/app/(poly)/PolyShell";
-import ProfileIcons from "./profile-icon";
+import ProfileIcons from "../profile-icon";
 import "./dashboard.css";
 import "./browse.css";
 import "../course-request.css";
@@ -865,7 +865,7 @@ export default function DashboardPage() {
                     style={{ transitionDelay: `${120 + index * 30}ms` }}
                   >
                     <Link
-                      href={`/dashboard/course/${course.id}`}
+                      href={`/course/${course.id}`}
                       className="browse-course-card browse-course-card--enrolled"
                     >
                       <div className="browse-course-card-top">
@@ -900,7 +900,7 @@ export default function DashboardPage() {
                 style={{ transitionDelay: `${200 + index * 40}ms` }}
               >
                 <Link
-                  href={`/dashboard/course/${course.id}`}
+                  href={`/course/${course.id}`}
                   className="browse-course-card"
                 >
                   <div className="browse-course-card-top">

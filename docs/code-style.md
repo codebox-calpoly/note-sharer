@@ -26,7 +26,7 @@ The goal is simple code that a student team can keep working on.
 
 ## Styling
 
-- Use the shared tokens in `frontend/app/globals.css`.
+- Use the shared tokens in `frontend/app/styles/theme.css`.
 - Route CSS is fine when a page has real layout complexity.
 - Avoid large inline style blocks for new work.
 - Keep text and controls usable on mobile.

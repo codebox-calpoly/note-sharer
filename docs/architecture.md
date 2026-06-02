@@ -9,6 +9,8 @@ Poly Pages is a Next.js app backed by Supabase. The app lives in `frontend/`; da
 - `frontend/app/onboarding` collects first-time profile and enrollment details.
 - `frontend/app/(poly)` contains the signed-in app shell.
 - `frontend/app/(poly)/dashboard` is the main course and resource browsing area.
+- `frontend/app/(poly)/course/[classId]` shows resources for one course.
+- `frontend/app/(poly)/profile` shows the signed-in user's profile, stats, uploads, downloads, and bookmarks.
 - `frontend/app/(poly)/upload` handles resource uploads.
 - `frontend/app/(poly)/moderator` is the moderation surface.
 - `frontend/app/(poly)/leaderboard` shows campus contribution rankings.
@@ -34,6 +36,7 @@ Schema changes are tracked in `supabase/migrations`. Use migrations for database
 ## Shared Code
 
 - `frontend/lib` holds reusable helpers for Supabase, search, enrollment, storage, moderation, and display logic.
+- `frontend/data/catalog` holds generated Cal Poly catalog JSON used by browse, upload, and seed scripts.
 - `frontend/app/components` holds shared app UI.
 - Route-specific CSS stays beside its route when a page has enough styling to deserve its own file.
 - `frontend/__tests__` holds focused Jest tests for helper behavior.

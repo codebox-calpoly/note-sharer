@@ -36,7 +36,7 @@ Poly Pages should feel like a useful campus tool: calm, direct, and student-buil
 ## UI Rules
 
 - Keep important student actions easy to scan.
-- Use shared CSS variables from `frontend/app/globals.css`.
+- Use shared CSS variables from `frontend/app/styles/theme.css`.
 - Keep mobile layouts usable at `320px+`.
 - Do not introduce a new palette for one page.
 - When in doubt, make the interface quieter.

@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function ProfileIcons() {
   return (
     <Link
-      href="/profile-dashboard"
+      href="/profile"
       className="dashboard-profile-icon"
       aria-label="Open profile dashboard"
     >

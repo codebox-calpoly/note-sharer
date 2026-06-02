@@ -34,34 +34,21 @@ const CATALOG_TERMS = [
 ];
 
 function loadCatalog() {
-  const catalogPath = path.join(__dirname, "../app/(poly)/dashboard/calpoly-catalog.ts");
-  const raw = fs.readFileSync(catalogPath, "utf8");
-  const startMarker = "export const CALPOLY_PLACEHOLDER_COURSES";
-  const start = raw.indexOf(startMarker);
-  if (start === -1) throw new Error("CALPOLY_PLACEHOLDER_COURSES not found");
-  const arrayStart = raw.indexOf("[", start);
-  const arrayEnd = raw.lastIndexOf("];") + 1;
-  let json = raw.slice(arrayStart, arrayEnd);
-  json = json.replace(/\b(department|code|name):/g, '"$1":');
-  json = json.replace(/,(\s*)\]/, "$1]");
-  let catalog = JSON.parse(json);
+  const catalogPath = path.join(__dirname, "../data/catalog/placeholder-courses.json");
+  let catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
   const codesInCatalog = new Set(catalog.map((c) => c.code));
 
-  // Merge in any course from calpoly-course-titles.ts that is not in the placeholder catalog (e.g. missing AERO courses).
-  const titlesPath = path.join(__dirname, "../app/(poly)/dashboard/calpoly-course-titles.ts");
+  // Merge in any course from course-titles.json that is not in the placeholder catalog.
+  const titlesPath = path.join(__dirname, "../data/catalog/course-titles.json");
   if (fs.existsSync(titlesPath)) {
-    const titlesRaw = fs.readFileSync(titlesPath, "utf8");
-    const re = /"([A-Z0-9]+ [0-9A-Z]+)"\s*:\s*"([^"]+)"/g;
-    let m;
-    while ((m = re.exec(titlesRaw)) !== null) {
-      const code = m[1];
-      const title = m[2];
+    const titles = JSON.parse(fs.readFileSync(titlesPath, "utf8"));
+    Object.entries(titles).forEach(([code, title]) => {
       if (codesInCatalog.has(code)) continue;
       const department = code.split(/\s+/)[0] || "";
       if (!department) continue;
       catalog.push({ department, code, name: title });
       codesInCatalog.add(code);
-    }
+    });
   }
 
   return catalog;
