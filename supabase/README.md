@@ -45,6 +45,8 @@ npm --prefix frontend run db:seed-catalog
 ```
 
 The seed scripts populate department aliases, courses, course numbers, and catalog terms used by search and browse flows.
+`db:seed-catalog` writes the app's default `2526` catalog year and uses the same
+catalog-year conflict key as the current migrations.
 
 ## Storage
 

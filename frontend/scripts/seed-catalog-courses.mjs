@@ -33,6 +33,8 @@ const CATALOG_TERMS = [
   { term: "Summer", year: 2028 },
 ];
 
+const CATALOG_YEAR = 2526;
+
 function loadCatalog() {
   const catalogPath = path.join(__dirname, "../data/catalog/placeholder-courses.json");
   let catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
@@ -92,9 +94,10 @@ async function main() {
         title: c.name,
         term,
         year,
+        catalog_year: CATALOG_YEAR,
       }));
       const { error } = await supabase.from("courses").upsert(rows, {
-        onConflict: "department,course_number,term,year",
+        onConflict: "department,course_number,term,year,catalog_year",
       });
       if (error) {
         console.error("Upsert error:", error.message);
