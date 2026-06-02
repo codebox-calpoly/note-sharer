@@ -1248,6 +1248,8 @@ function CourseDetailPage() {
                           className="note-modal-preview-iframe"
                         />
                       ) : (
+                        // Blob URLs come from authenticated preview fetches, so Next Image cannot optimize them.
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={previewBlobUrl}
                           alt="Note preview (blurred until downloaded)"
