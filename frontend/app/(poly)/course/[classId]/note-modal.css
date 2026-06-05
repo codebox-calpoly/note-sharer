@@ -1,0 +1,476 @@
+/* Note preview modal dark mode */
+[data-theme="dark"] .note-modal {
+  background: #262626 !important;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .note-modal-title,
+[data-theme="dark"] .note-modal-details p {
+  color: #e5e5e5 !important;
+}
+
+[data-theme="dark"] .note-modal-details strong {
+  color: #e5e5e5 !important;
+}
+
+[data-theme="dark"] .note-modal-close {
+  color: #a3a3a3;
+}
+
+[data-theme="dark"] .note-modal-close:hover {
+  color: #e5e5e5;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .note-modal-preview {
+  background: #1a1a1a !important;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .note-modal-preview--pdf {
+  background: #1a1a1a !important;
+}
+
+[data-theme="dark"] .note-modal-preview-iframe {
+  background: #1a1a1a;
+}
+
+[data-theme="dark"] .note-modal-no-preview {
+  color: #666 !important;
+}
+
+[data-theme="dark"] .note-modal-pdf-loading {
+  color: #a3a3a3 !important;
+}
+
+[data-theme="dark"] .note-modal-pdf-nav-btn {
+  background: #2a2a2a !important;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e5e5e5;
+}
+
+[data-theme="dark"] .note-modal-pdf-nav-btn:hover:not(:disabled) {
+  background: #3a3a3a !important;
+}
+
+[data-theme="dark"] .note-modal-pdf-page-info {
+  color: #a3a3a3 !important;
+}
+
+[data-theme="dark"] .note-modal-score-hint {
+  color: #a3a3a3 !important;
+}
+
+[data-theme="dark"] .note-modal-actions {
+  background: #1f1f1f !important;
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .note-modal-report-btn {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e5e5e5 !important;
+}
+
+[data-theme="dark"] .note-modal-report-btn:hover {
+  color: #f87171 !important;
+  background: rgba(248, 113, 113, 0.1) !important;
+}
+
+[data-theme="dark"] .note-modal-star-btn {
+  background: transparent !important;
+  border-color: rgba(250, 204, 21, 0.45);
+  color: #facc15 !important;
+}
+
+[data-theme="dark"] .note-modal-star-btn:hover {
+  color: #fde68a !important;
+  background: rgba(250, 204, 21, 0.18) !important;
+}
+
+[data-theme="dark"] .note-modal-star-btn.is-active {
+  color: #fef08a !important;
+  background: rgba(250, 204, 21, 0.26) !important;
+  border-color: rgba(250, 204, 21, 0.72);
+}
+
+.note-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 46, 46, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 100;
+}
+
+.note-modal {
+  width: min(560px, 100%);
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--poly-border-subtle, rgba(0, 0, 0, 0.06));
+}
+
+.note-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem 0;
+  flex-shrink: 0;
+}
+
+.note-modal-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--poly-neutral-dark);
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
+.note-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--poly-neutral-muted);
+  cursor: pointer;
+  padding: 0.375rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.note-modal-close:hover {
+  color: var(--poly-neutral-dark);
+  background: var(--poly-sage-soft);
+}
+
+.note-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+}
+
+.note-modal-preview {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--poly-border-subtle, rgba(0, 0, 0, 0.08));
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+/* When showing full PDF viewer: allow scroll, don't clip */
+.note-modal-preview--pdf {
+  overflow: visible;
+  min-height: 300px;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.note-modal-preview-img {
+  max-width: 100%;
+  height: auto;
+  max-height: 50vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Blurred PDF preview when no image preview (e.g. fallback from upload) */
+.note-modal-preview-iframe {
+  width: 100%;
+  min-height: 200px;
+  max-height: 50vh;
+  border: none;
+  filter: blur(3px);
+  pointer-events: none;
+  display: block;
+}
+
+.note-modal-preview img {
+  max-width: 100%;
+  height: auto;
+  max-height: 50vh;
+  object-fit: contain;
+  display: block;
+}
+
+.note-modal-no-preview {
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--poly-neutral-muted);
+  font-size: 0.9rem;
+}
+
+.note-modal-pdf-loading,
+.note-modal-pdf-error {
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--poly-neutral-muted);
+}
+
+.note-modal-pdf-error {
+  color: var(--poly-error, #b91c1c);
+}
+
+.note-modal-pdf-viewer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Scrollable area for the PDF page; keep compact so details and nav stay visible below */
+.note-modal-pdf-scroll {
+  width: 100%;
+  max-height: 42vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.note-modal-pdf-viewer .react-pdf__Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.note-modal-pdf-viewer .react-pdf__Page {
+  max-width: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure PDF.js canvas and text layer are visible and not clipped */
+.note-modal-pdf-viewer .react-pdf__Page__canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+
+.note-modal-pdf-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.note-modal-pdf-nav-btn {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--poly-border-subtle, rgba(0, 0, 0, 0.15));
+  border-radius: 8px;
+  background: var(--poly-bg, #fff);
+  color: var(--poly-neutral-dark);
+  cursor: pointer;
+}
+
+.note-modal-pdf-nav-btn:hover:not(:disabled) {
+  background: var(--poly-neutral-muted, #e5e5e5);
+}
+
+.note-modal-pdf-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.note-modal-pdf-page-info {
+  font-size: 0.875rem;
+  color: var(--poly-neutral-muted);
+}
+
+.note-modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.note-modal-details p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--poly-neutral-dark);
+  line-height: 1.5;
+}
+
+.note-modal-details strong {
+  color: var(--poly-neutral-dark);
+  font-weight: 600;
+  margin-right: 0.25rem;
+}
+
+.note-modal-score-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--poly-neutral-muted);
+}
+
+.note-modal-vote-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.9rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  font-weight: 500;
+}
+
+.note-modal-vote-arrow:hover:not(:disabled) {
+  background: var(--poly-sage-soft);
+}
+
+.note-modal-vote-arrow:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.note-modal-vote-up {
+  color: var(--poly-sage);
+}
+
+.note-modal-vote-up.note-modal-vote-active {
+  color: var(--poly-sage);
+  background: var(--poly-sage-soft);
+}
+
+.note-modal-vote-down {
+  color: var(--poly-neutral-muted);
+}
+
+.note-modal-vote-down:hover:not(:disabled) {
+  color: #b91c1c;
+  background: rgba(185, 28, 28, 0.08);
+}
+
+.note-modal-vote-down.note-modal-vote-active {
+  color: #b91c1c;
+  background: rgba(185, 28, 28, 0.08);
+}
+
+.note-modal-vote-count {
+  min-width: 1.25em;
+  text-align: left;
+}
+
+.note-modal-details .dashboard-vote-error {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #b91c1c;
+}
+
+.note-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem 1.25rem;
+  border-top: 1px solid var(--poly-border-subtle, rgba(0, 0, 0, 0.06));
+  background: #fafafa;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.note-modal-download-btn {
+  flex-shrink: 0;
+  margin-right: auto;
+}
+
+.note-modal-actions-votes {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.note-modal-actions-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+
+.note-modal-report-btn {
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid var(--poly-border-subtle, rgba(0, 0, 0, 0.1));
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  background: transparent;
+  color: var(--poly-neutral-muted);
+  flex-shrink: 0;
+}
+
+.note-modal-report-btn:hover {
+  color: #b91c1c;
+  background: rgba(185, 28, 28, 0.06);
+}
+
+.note-modal-star-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.42);
+  background: transparent;
+  color: #f59e0b;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.note-modal-star-btn:hover {
+  color: #d97706;
+  background: rgba(245, 158, 11, 0.16);
+}
+
+.note-modal-star-btn.is-active {
+  color: #ca8a04;
+  background: rgba(250, 204, 21, 0.18);
+  border-color: rgba(245, 158, 11, 0.65);
+}
+
+/* In-app mobile disclaimer (Poly shell) */

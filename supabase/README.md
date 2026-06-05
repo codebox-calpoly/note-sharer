@@ -1,70 +1,67 @@
 # Supabase Setup
 
-These steps link this codebase to the existing Supabase project at `https://prwaxvxppcbnoqwcvcjn.supabase.co`, apply the schema derived from the PRD/Tech Stack, and keep local migrations in sync.
+Supabase provides auth, Postgres, and private file storage for Poly Pages.
 
-## 1. Prerequisites
-- Install the [Supabase CLI](https://supabase.com/docs/guides/cli) (`npm install -g supabase` or `brew install supabase/tap/supabase`).
-- Log into the CLI once so it can obtain an access token: `supabase login`.
+## Prerequisites
 
-## 2. Link the Local Repo to the Hosted Project
+- Supabase CLI.
+- Access to the hosted Supabase project.
+- Values for `frontend/.env.local`.
+
+## Environment
+
+Create `frontend/.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+```
+
+Keep service-role keys out of client code and out of git.
+
+## Link The Project
 
 ```bash
+supabase login
 supabase link --project-ref prwaxvxppcbnoqwcvcjn
 ```
 
-The CLI will ask for an access token (found in the Supabase dashboard). Linking lets you run migrations directly against the remote project.
-
-## 3. Configure Environment Variables
-1. Copy the example file and fill in your keys:
-   ```bash
-   cp .env.example .env.local
-   ```
-2. Populate:
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (provided anon public key)
-   - Optional server-only secrets (`SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET`)
-3. Load the env file when running local scripts (Next.js automatically reads `.env.local`).
-
-## 4. Apply the Schema from This Repo
+## Apply Migrations
 
 ```bash
 supabase db push
 ```
 
-This runs the SQL in `supabase/migrations` against the linked project. Review the SQL beforehand if you already have data—running migrations on a live database may require downtime or backfills.
+Migrations live in `supabase/migrations`. Add a new migration for schema changes instead of editing the hosted database by hand.
 
-## 5. Catalog Data (Departments, Courses & Terms)
-After `supabase db push`, the `catalog_terms` table is seeded with the 2026–2028 catalog terms (Fall 2026 through Summer 2028). Seed the department lookup table first, then populate the `courses` table. Run from the **frontend** directory:
+## Seed Catalog Data
+
+Run from the repo root after env vars are set:
 
 ```bash
-cd frontend && npm run db:seed-departments
-cd frontend && npm run db:seed-catalog
+npm --prefix frontend run db:seed-departments
+npm --prefix frontend run db:seed-catalog
 ```
 
-`npm run db:seed-departments` reads `lib/calpoly-departments.ts` and upserts one row per department code into `departments` with official names and aliases used by search. `npm run db:seed-catalog` reads `app/(poly)/dashboard/calpoly-catalog.ts` and upserts one row per (department, course_number, term, year). Ensure `.env.local` has `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` so the scripts can connect.
+The seed scripts populate department aliases, courses, course numbers, and catalog terms used by search and browse flows.
+`db:seed-catalog` writes the app's default `2526` catalog year and uses the same
+catalog-year conflict key as the current migrations.
 
-**Schema note:** `courses.course_number` and `course_submissions.course_number` are **`integer`**. The catalog seed takes the leading digits from each course code (e.g. `BUS 3384A` → `3384`).
+## Storage
 
-## 6. Keeping the Schema in Sync
-- When making DB changes locally, create a new migration file with `supabase migration new <name>` and edit the generated SQL.
-- Use `supabase db lint` to catch obvious issues before pushing.
-- If you edit the schema in the hosted project directly, run `supabase db pull` to update the local shadow schema and resolve drift.
+The app expects private buckets for:
 
-## 7. Helpful Commands
+- `resources`: original uploaded PDFs.
+- `previews`: generated preview images.
 
-| Command | Purpose |
-| --- | --- |
-| `supabase status` | Verify linked project + service health |
-| `supabase db dump --schema public` | Export the current schema (good for backups) |
-| `supabase functions deploy <name>` | Deploy Edge Functions (future work) |
+API routes create signed URLs when a user is allowed to view or download a file.
 
-## 8. Storage Buckets
-Create these buckets in the Supabase dashboard (Storage → Buckets):
-- `resources` — original PDFs (private, access via signed URLs)
-- `previews` — blurred teaser PNGs
+## Useful Commands
 
-Set each bucket to **private** and let the API create signed URLs after credit/voucher checks.
-
-## 9. Next Steps
-- Wire these env vars into the Next.js frontend (`createClient` helpers for client/server).
-- Implement server actions/API routes that call the provided SQL RPC helpers for credits, vouchers, and downloads.
-- Add RLS policies once the Auth flows are ready (policies are noted inside the migration file but left `ALTER POLICY ... USING (...)` editable so you can fine-tune them per route).
+```bash
+supabase status
+supabase db lint
+supabase db pull
+supabase db dump --schema public
+```

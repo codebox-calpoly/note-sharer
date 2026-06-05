@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Fetches Cal Poly department catalog pages, parses course listings, and writes
- * frontend/app/(poly)/dashboard/calpoly-catalog.ts with real courses (plus TEST COURSE).
+ * frontend/data/catalog with real courses (plus TEST COURSE).
  * Run: node scripts/build-calpoly-catalog.mjs
  */
 
@@ -32,17 +32,9 @@ function parseCoursesFromText(text) {
 }
 
 async function fetchPage(url) {
-  const res = await fetch(url, { headers: { "User-Agent": "NoteSharer-Bot/1.0" } });
+  const res = await fetch(url, { headers: { "User-Agent": "PolyPages-Bot/1.0" } });
   if (!res.ok) throw new Error(`${url} ${res.status}`);
   return res.text();
-}
-
-function escapeTsString(s) {
-  return String(s)
-    .replace(/\\/g, "\\\\")
-    .replace(/"/g, '\\"')
-    .replace(/\n/g, " ")
-    .replace(/\r/g, "");
 }
 
 async function run() {
@@ -83,29 +75,20 @@ async function run() {
   const deptCodes = [...new Set(allCourses.map((c) => c.department))].filter((d) => d !== "TEST").sort();
   deptCodes.unshift("TEST");
 
-  const lines = [
-    "/**",
-    " * Cal Poly course catalog (placeholder/browse list).",
-    " * TEST COURSE is for testing; other entries from catalog.calpoly.edu.",
-    " * @see https://catalog.calpoly.edu/courses/",
-    " */",
-    "export const CALPOLY_DEPARTMENT_CODES = [",
-    "  " + deptCodes.map((d) => `"${d}"`).join(", "),
-    "] as const;",
-    "",
-    "export type CalPolyDeptCode = (typeof CALPOLY_DEPARTMENT_CODES)[number];",
-    "",
-    "/** Placeholder/browse courses: TEST COURSE + real catalog courses (0 notes until in DB). */",
-    "export const CALPOLY_PLACEHOLDER_COURSES: ReadonlyArray<{ department: string; code: string; name: string }> = [",
-    ...allCourses.map((c) => `  { department: "${c.department}", code: "${escapeTsString(c.code)}", name: "${escapeTsString(c.name)}" },`),
-    "];",
-    "",
-  ];
-
-  const outPath = new URL("../app/(poly)/dashboard/calpoly-catalog.ts", import.meta.url);
   const fs = await import("fs");
-  fs.writeFileSync(outPath, lines.join("\n"), "utf8");
-  console.error(`\nWrote ${allCourses.length} courses to app/(poly)/dashboard/calpoly-catalog.ts`);
+  const dataDir = new URL("../data/catalog/", import.meta.url);
+  fs.mkdirSync(dataDir, { recursive: true });
+  fs.writeFileSync(
+    new URL("department-codes.json", dataDir),
+    `${JSON.stringify(deptCodes, null, 2)}\n`,
+    "utf8",
+  );
+  fs.writeFileSync(
+    new URL("placeholder-courses.json", dataDir),
+    `${JSON.stringify(allCourses, null, 2)}\n`,
+    "utf8",
+  );
+  console.error(`\nWrote ${allCourses.length} courses to data/catalog/placeholder-courses.json`);
 }
 
 run().catch((err) => {

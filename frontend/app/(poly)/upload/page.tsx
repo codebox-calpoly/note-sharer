@@ -8,12 +8,13 @@ import { CALPOLY_DEPARTMENTS, type DepartmentRecord } from "@/lib/calpoly-depart
 import { getFacultyByDepartment } from "@/lib/calpoly-faculty";
 import { getSessionWithRecovery, supabase } from "@/lib/supabaseClient";
 import { useRegisterNavRight } from "@/app/(poly)/PolyShell";
-import ProfileIcons from "@/app/(poly)/dashboard/profile-icon";
+import ProfileIcons from "@/app/(poly)/profile-icon";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-import { CALPOLY_PLACEHOLDER_COURSES } from "@/app/(poly)/dashboard/calpoly-catalog";
+import { CALPOLY_PLACEHOLDER_COURSES } from "@/lib/catalog/calpoly-catalog";
 import "./upload.css";
+import "../course-request.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
@@ -119,7 +120,7 @@ export default function UploadPage() {
   useEffect(() => {
     (async () => {
       const { session, error } = await getSessionWithRecovery(supabase);
-      if (error) console.log("UploadPage getSession error:", error);
+      if (error) console.error("UploadPage getSession error:", error);
       if (!session) {
         router.replace("/auth");
         return;
@@ -481,7 +482,7 @@ export default function UploadPage() {
     if (!isSuccess) return;
     const t = window.setTimeout(() => {
       if (classId) {
-        router.push(`/dashboard/course/${classId}`);
+        router.push(`/course/${classId}`);
       } else {
         router.push("/dashboard");
       }

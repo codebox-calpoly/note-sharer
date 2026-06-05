@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSessionWithRecovery, supabase } from "@/lib/supabaseClient";
+import "./page.css";
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLElement>(null);
@@ -43,7 +44,7 @@ export default function Home() {
         <div className="lp-nav-inner">
           <div className="lp-nav-brand">
             <span className="lp-logo-wrap">
-              <img src="/Transparent Note Sharer(1).svg" alt="Poly Pages" className="lp-logo-img" />
+              <img src="/assets/brand/poly-pages-logo.svg" alt="Poly Pages" className="lp-logo-img" />
             </span>
             <span className="lp-brand-name">Poly Pages</span>
             <span className="lp-badge">Cal Poly SLO</span>
@@ -130,7 +131,7 @@ export default function Home() {
               {/* Phone mockup — always dark */}
               <img
                 className="lp-phone-img"
-                src="/IMG_7904.jpeg"
+                src="/assets/landing/mobile-app-preview.jpeg"
                 alt="App on mobile"
               />
             </div>

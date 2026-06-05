@@ -33,35 +33,28 @@ const CATALOG_TERMS = [
   { term: "Summer", year: 2028 },
 ];
 
+const CATALOG_YEAR = 2526;
+
 function loadCatalog() {
-  const catalogPath = path.join(__dirname, "../app/(poly)/dashboard/calpoly-catalog.ts");
-  const raw = fs.readFileSync(catalogPath, "utf8");
-  const startMarker = "export const CALPOLY_PLACEHOLDER_COURSES";
-  const start = raw.indexOf(startMarker);
-  if (start === -1) throw new Error("CALPOLY_PLACEHOLDER_COURSES not found");
-  const arrayStart = raw.indexOf("[", start);
-  const arrayEnd = raw.lastIndexOf("];") + 1;
-  let json = raw.slice(arrayStart, arrayEnd);
-  json = json.replace(/\b(department|code|name):/g, '"$1":');
-  json = json.replace(/,(\s*)\]/, "$1]");
-  let catalog = JSON.parse(json);
+  const catalogPath = path.join(__dirname, "../data/catalog/placeholder-courses.json");
+  let catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
   const codesInCatalog = new Set(catalog.map((c) => c.code));
 
-  // Merge in any course from calpoly-course-titles.ts that is not in the placeholder catalog (e.g. missing AERO courses).
-  const titlesPath = path.join(__dirname, "../app/(poly)/dashboard/calpoly-course-titles.ts");
+  // Use generated catalog titles as the source of truth when a code exists there.
+  const titlesPath = path.join(__dirname, "../data/catalog/course-titles.json");
   if (fs.existsSync(titlesPath)) {
-    const titlesRaw = fs.readFileSync(titlesPath, "utf8");
-    const re = /"([A-Z0-9]+ [0-9A-Z]+)"\s*:\s*"([^"]+)"/g;
-    let m;
-    while ((m = re.exec(titlesRaw)) !== null) {
-      const code = m[1];
-      const title = m[2];
+    const titles = JSON.parse(fs.readFileSync(titlesPath, "utf8"));
+    catalog = catalog.map((course) => ({
+      ...course,
+      name: titles[course.code] ?? course.name,
+    }));
+    Object.entries(titles).forEach(([code, title]) => {
       if (codesInCatalog.has(code)) continue;
       const department = code.split(/\s+/)[0] || "";
       if (!department) continue;
       catalog.push({ department, code, name: title });
       codesInCatalog.add(code);
-    }
+    });
   }
 
   return catalog;
@@ -101,9 +94,10 @@ async function main() {
         title: c.name,
         term,
         year,
+        catalog_year: CATALOG_YEAR,
       }));
       const { error } = await supabase.from("courses").upsert(rows, {
-        onConflict: "department,course_number,term,year",
+        onConflict: "department,course_number,term,year,catalog_year",
       });
       if (error) {
         console.error("Upsert error:", error.message);

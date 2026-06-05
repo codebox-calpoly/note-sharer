@@ -26,13 +26,13 @@ type ModAccessPayload = {
   allowed?: boolean;
 };
 
-const APP_PATHS = ["/dashboard", "/upload", "/leaderboard", "/moderator"];
+const APP_PATHS = ["/dashboard", "/course", "/upload", "/leaderboard", "/profile", "/moderator"];
 
 function getActiveNav(pathname: string) {
   if (pathname.startsWith("/upload")) return "upload" as const;
   if (pathname.startsWith("/leaderboard")) return "leaderboard" as const;
   if (pathname.startsWith("/moderator")) return "moderator" as const;
-  if (pathname.startsWith("/dashboard/profile-dashboard")) return "profile" as const;
+  if (pathname.startsWith("/profile")) return "profile" as const;
   return "browse" as const;
 }
 
@@ -45,6 +45,7 @@ export function AuthenticatedAppChrome() {
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [handle, setHandle] = useState<string | null>(null);
   const [showModerator, setShowModerator] = useState(false);
+  const [sessionLoaded, setSessionLoaded] = useState(false);
 
   const isAppShellRoute = useMemo(
     () => APP_PATHS.some((prefix) => pathname.startsWith(prefix)),
@@ -57,6 +58,7 @@ export function AuthenticatedAppChrome() {
       const { session: currentSession } = await getSessionWithRecovery(supabase);
       if (!cancelled) {
         setSession(currentSession);
+        setSessionLoaded(true);
       }
     };
 
@@ -65,6 +67,7 @@ export function AuthenticatedAppChrome() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, nextSession) => {
       setSession(nextSession);
+      setSessionLoaded(true);
     });
 
     return () => {
@@ -72,6 +75,11 @@ export function AuthenticatedAppChrome() {
       subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    if (!isAppShellRoute || !sessionLoaded || session) return;
+    router.replace("/");
+  }, [isAppShellRoute, router, session, sessionLoaded]);
 
   useEffect(() => {
     if (!isAppShellRoute || !session?.access_token) return;
@@ -151,7 +159,7 @@ export function AuthenticatedAppChrome() {
           <span className="app-shell-pill">Free downloads: {freeDownloads}</span>
         ) : null}
         <Link
-          href="/dashboard/profile-dashboard"
+          href="/profile"
           className="app-shell-profile-link"
           aria-label="Open profile"
         >

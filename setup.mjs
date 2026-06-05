@@ -60,10 +60,11 @@ const openBrowser = (url) => {
 };
 
 const checkNodeVersion = () => {
-  const [major] = process.versions.node.split(".").map((part) => Number(part));
-  if (!Number.isFinite(major) || major < 18) {
+  const [major, minor] = process.versions.node.split(".").map((part) => Number(part));
+  const supported = major > 20 || (major === 20 && minor >= 9);
+  if (!supported) {
     fail(
-      "Node.js 18+ is required. Install it from https://nodejs.org/ or use nvm.",
+      "Node.js 20.9+ is required. Install it from https://nodejs.org/ or use nvm.",
     );
   }
   console.log(`Node.js ${process.versions.node} detected.`);

@@ -1,0 +1,85 @@
+.course-enrollment-picker {
+  display: grid;
+  gap: 10px;
+}
+
+.course-enrollment-picker__label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--poly-text-primary);
+}
+
+.course-enrollment-picker__input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid var(--poly-border-strong);
+  background: var(--poly-surface-raised);
+  color: var(--poly-text-primary);
+}
+
+.course-enrollment-picker__hint,
+.course-enrollment-picker__empty,
+.course-enrollment-picker__status {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--poly-text-secondary);
+}
+
+.course-enrollment-picker__error {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--poly-danger);
+}
+
+.course-enrollment-picker__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.course-enrollment-picker__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--poly-sage) 28%, transparent);
+  background: var(--poly-success-soft);
+  color: var(--poly-text-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.course-enrollment-picker__results {
+  display: grid;
+  gap: 8px;
+}
+
+.course-enrollment-picker__result {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--poly-border);
+  background: var(--poly-surface-raised);
+  color: var(--poly-text-primary);
+}
+
+.course-enrollment-picker__result.is-selected {
+  opacity: 0.55;
+}
+
+.course-enrollment-picker__result-code {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.course-enrollment-picker__result-name {
+  font-size: 0.88rem;
+  color: var(--poly-text-secondary);
+}

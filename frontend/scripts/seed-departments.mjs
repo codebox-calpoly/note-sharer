@@ -22,11 +22,6 @@ function loadEnvLocal() {
   });
 }
 
-function loadDepartments() {
-  const dataPath = path.join(__dirname, "../lib/calpoly-departments.ts");
-  throw new Error(`Dynamic import required for ${dataPath}`);
-}
-
 async function main() {
   loadEnvLocal();
   const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;

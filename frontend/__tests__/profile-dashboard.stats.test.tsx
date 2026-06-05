@@ -1,4 +1,4 @@
-import { displayStatValue, getRankValue, toProfileStats } from "@/app/(poly)/dashboard/profile-dashboard/stats";
+import { displayStatValue, getRankValue, toProfileStats } from "@/app/(poly)/profile/stats";
 
 describe("profile dashboard stats helpers", () => {
   it("fills missing stats with zero", () => {

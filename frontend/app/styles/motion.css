@@ -1,0 +1,39 @@
+/* Seamless transition when navigating between pages (Browse, Upload, Profile, etc.) */
+.page-transition-wrapper {
+  animation: pageTransitionIn 0.3s ease forwards;
+}
+@keyframes pageTransitionIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page enter animations (leaderboard-style: fade up on load) */
+.page-enter {
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.page-enter-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-enter-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Button hover lift (sign-up / create account style) */
+.btn-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-lift:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.btn-lift:active:not(:disabled) {
+  transform: translateY(0);
+}

@@ -55,7 +55,7 @@ export function DesignNav({
               Moderator
             </Link>
           ) : null}
-          <Link href="/dashboard/profile-dashboard" className={linkClass(active === "profile")}>
+          <Link href="/profile" className={linkClass(active === "profile")}>
             Profile
           </Link>
         </nav>
@@ -129,7 +129,7 @@ export function DesignNav({
             </Link>
           ) : null}
           <Link
-            href="/dashboard/profile-dashboard"
+            href="/profile"
             className={`py-3 px-3 rounded-lg ${linkClass(active === "profile")} w-full text-left`}
             onClick={closeMobileMenu}
           >

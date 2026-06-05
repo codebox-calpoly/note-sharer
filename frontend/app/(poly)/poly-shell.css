@@ -1,0 +1,163 @@
+.app-shell-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--poly-border-strong);
+  background: var(--poly-warning-soft);
+  color: var(--poly-text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: var(--poly-shadow-soft);
+}
+
+.app-shell-profile-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--poly-border-strong);
+  background: var(--poly-sage);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: var(--poly-shadow-soft);
+}
+
+/* DesignNav: full width + strong contrast for logo and links in dark */
+.design-nav-header {
+  width: 100%;
+}
+
+/* Burger: high contrast so it’s always visible */
+.design-nav-burger-line {
+  background-color: #171717;
+  border-radius: 1px;
+}
+[data-theme="dark"] .design-nav-burger-line {
+  background-color: #f5f5f5;
+}
+
+/* Navbar right-slot: scale down proportionally so credits, theme, upload don’t overlap */
+@media (max-width: 1280px) {
+  .design-nav-header .app-shell-pill {
+    padding: 0 12px;
+    font-size: 13px;
+    height: 36px;
+  }
+  .design-nav-header nav {
+    gap: 0.5rem;
+  }
+  .design-nav-header nav a.design-nav-link {
+    font-size: 16px;
+  }
+}
+
+[data-theme="dark"] .design-nav-header h1,
+[data-theme="dark"] .design-nav-header .font-bold {
+  color: #f5f5f5 !important;
+}
+[data-theme="dark"] .design-nav-header a:not([class*="upload-btn"]):not([class*="profile-btn"]) {
+  color: #d4d4d4 !important;
+}
+[data-theme="dark"] .design-nav-header a:hover:not([class*="upload-btn"]):not([class*="profile-btn"]) {
+  color: #6dbe8b !important;
+}
+[data-theme="dark"] .design-nav-header a.design-nav-link--active {
+  color: #6dbe8b !important;
+}
+
+/* Nav right-slot pills/buttons: dark theme to match design */
+[data-theme="dark"] .design-nav-header .app-shell-pill {
+  background: rgba(109, 190, 139, 0.15) !important;
+  border-color: rgba(109, 190, 139, 0.3) !important;
+  color: #e5e5e5 !important;
+}
+[data-theme="dark"] .design-nav-header .app-shell-pill:hover {
+  background: rgba(109, 190, 139, 0.25) !important;
+  border-color: rgba(109, 190, 139, 0.45) !important;
+  color: #f5f5f5 !important;
+}
+
+/* DesignNav (top nav + mobile menu) theme alignment */
+.design-nav-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+[data-theme="dark"] .design-nav-header {
+  background: #262626;
+  border-bottom-color: #404040;
+}
+
+.design-nav-mobile-menu {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+[data-theme="dark"] .design-nav-mobile-menu {
+  background: #262626;
+  border-bottom-color: #404040;
+}
+
+.design-nav-burger-line {
+  background: #111827;
+}
+
+[data-theme="dark"] .design-nav-burger-line {
+  background: #e5e5e5;
+}
+
+.poly-mobile-disclaimer {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .poly-mobile-disclaimer {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 12px 8px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--poly-neutral-dark, #2e2e2e);
+    background: rgba(109, 190, 139, 0.12);
+    border: 1px solid rgba(109, 190, 139, 0.35);
+  }
+
+  [data-theme="dark"] .poly-mobile-disclaimer {
+    color: #e5e7eb;
+    background: rgba(109, 190, 139, 0.14);
+    border-color: rgba(109, 190, 139, 0.28);
+  }
+
+  .poly-mobile-disclaimer p {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .poly-mobile-disclaimer-dismiss {
+    flex-shrink: 0;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--poly-neutral-dark, #2e2e2e);
+  }
+
+  [data-theme="dark"] .poly-mobile-disclaimer-dismiss {
+    background: #333;
+    color: #e5e7eb;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+}

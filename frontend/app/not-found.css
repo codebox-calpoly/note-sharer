@@ -1,0 +1,9 @@
+[data-theme="dark"] .not-found-secondary-btn {
+  background: #2d2d2d !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #d4d4d4 !important;
+}
+[data-theme="dark"] .not-found-secondary-btn:hover {
+  border-color: #6dbe8b !important;
+  color: #6dbe8b !important;
+}

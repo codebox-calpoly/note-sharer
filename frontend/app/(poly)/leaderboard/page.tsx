@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRegisterNavRight } from "@/app/(poly)/PolyShell";
 import { getSessionWithRecovery, supabase } from "@/lib/supabaseClient";
+import "./leaderboard.css";
 
 type LeaderboardEntry = {
   rank: number;
