@@ -44,6 +44,19 @@ For UI or flow changes, also check the app locally:
 5. Upload a PDF if the change touches uploads.
 6. Check mobile width for changed screens.
 
+## Local Upload Bypass
+
+For local upload testing without a browser session, set:
+
+```env
+UPLOAD_BYPASS_ENABLED=true
+UPLOAD_BYPASS_PROFILE_ID=<local test profile uuid>
+```
+
+The upload API only honors this bypass outside production. It still validates
+the target profile, blocked status, file type, resource metadata, storage, and
+moderation/approval rules.
+
 ## Production Build
 
 When env vars are available, also run:
